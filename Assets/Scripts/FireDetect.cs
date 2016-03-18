@@ -15,7 +15,7 @@ public class FireDetect : MonoBehaviour {
 	
 	}
 
-    public void OnCollisionEnter(Collision col)
+    public void OnTriggerEnter(Collision col)
     {
         //play fire animation
         targetToDeactivate.SendMessage("Deactivated");
