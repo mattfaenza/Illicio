@@ -107,7 +107,7 @@ namespace ScrapyardChar
         {
             if (col.gameObject.tag == "Enemy" || col.gameObject.tag == "Hazard")
             {
-                   //played death animation here, delay a SHORT moment
+                   //played death animation here, delay a SHORT moment before respawning
                 gameObject.transform.position = SpawnPoint.transform.position;
             }
         }

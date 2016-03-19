@@ -6,11 +6,12 @@ public class ActivateTerminal : MonoBehaviour {
     public Material newMaterial;
     public Material[] mats;
     public Renderer rend;
-    public GameObject targetToActivate;
+    public GameObject target1ToActivate;
+    public GameObject target2ToActivate;
 
     void Start()
     {
-        rend = GetComponent<Renderer>();
+        rend = GetComponent<MeshRenderer>();
     }
 	
 	// Update is called once per frame
@@ -25,7 +26,8 @@ public class ActivateTerminal : MonoBehaviour {
             mats = rend.materials;
             mats[1] = newMaterial;
             rend.materials = mats;
-            targetToActivate.SendMessage("Activate");
+            target1ToActivate.SendMessage("Activate");
+            target2ToActivate.SendMessage("Activate");
             if (col.gameObject.tag == "Hologram")
             {
                 //col.gameObject.SetActive(false);

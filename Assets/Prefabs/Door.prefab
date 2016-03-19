@@ -27,7 +27,8 @@ GameObject:
   - 33: {fileID: 3305518}
   - 23: {fileID: 2372510}
   - 65: {fileID: 6554170}
-  m_Layer: 0
+  - 114: {fileID: 11428018}
+  m_Layer: 9
   m_Name: Wall Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +45,8 @@ GameObject:
   - 4: {fileID: 421456}
   - 33: {fileID: 3359134}
   - 23: {fileID: 2319090}
-  m_Layer: 0
+  - 114: {fileID: 11477470}
+  m_Layer: 9
   m_Name: Wall Door Frame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -69,9 +71,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 105698}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 85.85783, y: 0, z: 59.572445}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0.5, y: 0.5, z: 0.49999997, w: 0.50000006}
+  m_LocalPosition: {x: -0.1471, y: 0.015100022, z: -0.013678491}
+  m_LocalScale: {x: 0.011120724, y: 0.011120724, z: 0.011120723}
   m_Children:
   - {fileID: 450250}
   - {fileID: 421456}
@@ -101,7 +103,7 @@ MeshRenderer:
   m_Materials:
   - {fileID: 2100000, guid: d5e66dd383d3a4c02965b89be1ac4ac3, type: 2}
   - {fileID: 2100000, guid: 7325bf74a0ea14304aa8162ee5181037, type: 2}
-  - {fileID: 2100000, guid: 48931894883e6492c9e8b2449bd1c79c, type: 2}
+  - {fileID: 2100000, guid: 287e85d93a3954a33969dbad5f5b6dcd, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -186,6 +188,36 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &11428018
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 124646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c887991bf966e47488c43feb830e1da8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 3
+  moveTime: 2
+  fadeAmount: 0.6
+  fadePerSecond: 0.2
+  newMaterial: {fileID: 2100000, guid: 4ebdc0b7442a84a498b6f9a945aaa6f0, type: 2}
+--- !u!114 &11477470
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 147326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5b7a094e44589c45a11795b3aa1b404, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mats: []
+  newMaterial: {fileID: 2100000, guid: 48931894883e6492c9e8b2449bd1c79c, type: 2}
+  rend: {fileID: 2319090}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

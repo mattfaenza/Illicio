@@ -3,9 +3,15 @@ using System.Collections;
 
 public class Deactivate : MonoBehaviour {
 
-    private float DeactivatedTime;
+    public Renderer rend;
+    public MeshCollider col;
+    private bool isDeactivated;
+    private float delay;
 	// Use this for initialization
 	void Start () {
+        delay = 3.0f;
+        rend = GetComponent<MeshRenderer>();
+        col = GetComponent<MeshCollider>();
     }
 	
     //listen for a deactivate call and destroy fire instance
@@ -13,17 +19,42 @@ public class Deactivate : MonoBehaviour {
     //once time is up indicate unsafe
     void Deactivated ()
     {
-        DeactivatedTime = Time.time;
-        gameObject.SetActive(false); //appear safe - no glow or is smoking
-        while (Time.time < DeactivatedTime + 4) ;         //delay
-        gameObject.SetActive(true);
-        //appear dangerous
+        isDeactivated = true;
+        rend.enabled = false;
+        col.enabled = false;
+        //appear safe - no glow or is smoking
     }
 
 	// Update is called once per frame
 	void Update () {
+        if(isDeactivated)
+        {
+            if (delay >= 0)
+            {
+                delay -= Time.deltaTime;
+            }
+            else {
+                //delay here
+                //turn on renderer
+                //turn on collider
+                rend.enabled = true;
+                //col.enabled = true;
+                //appear dangerous
+                delay = 3.0f;
+                isDeactivated = false;
+            }
+        }
 
 
-	
-	}
+    }
+
+    public void OnTriggerEnter(Collider coll)
+    {
+        //play fire animation
+        isDeactivated = true;
+        rend.enabled = false;
+        //col.enabled = false;
+        //appear safe - no glow or is smoking
+
+    }
 }
