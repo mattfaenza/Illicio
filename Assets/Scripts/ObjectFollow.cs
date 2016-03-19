@@ -62,6 +62,11 @@ public class ObjectFollow : MonoBehaviour
         if (state == FollowStates.READY)   FollowStart();
         if (state == FollowStates.RUNNING) FollowMain();
     }
+    void OnCollisionEnter(Collision col) {
+        if (!col.gameObject.CompareTag("Player") && 
+            !col.gameObject.CompareTag("Hazard")
+            ) FollowEnd();
+    }
 }
 
 

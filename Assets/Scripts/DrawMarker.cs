@@ -34,7 +34,7 @@ public class DrawMarker : MonoBehaviour {
 		lineRender.SetColors(c1, c2); //Set the assigned colors
         lastT = Time.realtimeSinceStartup;
 	}
-    void calculateDeltaT() {
+    void CalculateDeltaT() {
         deltaT = Time.realtimeSinceStartup - lastT;
         lastT = Time.realtimeSinceStartup;
     }
@@ -85,7 +85,7 @@ public class DrawMarker : MonoBehaviour {
     }
     void Update()
     {
-        calculateDeltaT();
+        CalculateDeltaT();
 
         if (state == DrawStates.READY) transform.position = playerChar.transform.position;
         if (state == DrawStates.READY && Input.GetButtonDown("Draw")) DrawStart();
