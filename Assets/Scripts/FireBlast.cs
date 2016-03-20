@@ -1,17 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Deactivate : MonoBehaviour {
+public class FireBlast : MonoBehaviour {
 
     public Renderer rend;
-    public MeshCollider col;
+    public BoxCollider col;
     private bool isDeactivated;
     private float delay;
 	// Use this for initialization
 	void Start () {
         delay = 3.0f;
         rend = GetComponent<MeshRenderer>();
-        col = GetComponent<MeshCollider>();
+        col = GetComponent<BoxCollider>();
     }
 	
     //listen for a deactivate call and destroy fire instance
@@ -29,17 +29,14 @@ public class Deactivate : MonoBehaviour {
 	void Update () {
         if(isDeactivated)
         {
+            //appear safe, for a time (delay)
             if (delay >= 0)
             {
                 delay -= Time.deltaTime;
             }
             else {
-                //delay here
-                //turn on renderer
-                //turn on collider
-                rend.enabled = true;
-                //col.enabled = true;
-                //appear dangerous
+                rend.enabled = false;
+                //appear dangerous but no flame until collision
                 delay = 3.0f;
                 isDeactivated = false;
             }
@@ -50,11 +47,14 @@ public class Deactivate : MonoBehaviour {
 
     public void OnTriggerEnter(Collider coll)
     {
-        //play fire animation
-        isDeactivated = true;
-        rend.enabled = false;
-        //col.enabled = false;
-        //appear safe - no glow or is smoking
-
+        //Only react to player, hologram, or enemies
+        if (col.gameObject.tag == "Player" || col.gameObject.tag == "Hologram" || col.gameObject.tag == "Enemy")
+        {
+            isDeactivated = false;
+            rend.enabled = true;
+            //play fire animation, collider dies, begin to  recharge
+            isDeactivated = true;
+            rend.enabled = false;
+        }
     }
 }
