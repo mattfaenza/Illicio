@@ -1106,7 +1106,8 @@ MonoBehaviour:
   newMaterial: {fileID: 2100000, guid: 47c99aa55f6454ad885f00300631a0e6, type: 2}
   mats: []
   rend: {fileID: 463258847}
-  targetToActivate: {fileID: 1580926671}
+  target1ToActivate: {fileID: 0}
+  target2ToActivate: {fileID: 0}
 --- !u!1001 &486570657
 Prefab:
   m_ObjectHideFlags: 0
