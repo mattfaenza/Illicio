@@ -15,6 +15,7 @@ namespace ScrapyardChar
         private bool playerJump;
         private bool canJump;
         private float groundDist = 0.1f;
+        private bool allowBoost;
 
         //[Range(1f, 4f)][SerializeField] float gravMult = 2f;
 
@@ -69,6 +70,11 @@ namespace ScrapyardChar
 
         }
 
+        public void boostAllowed()
+        {
+            allowBoost = true;
+        }
+
         public void MovementManagement(float horizontal, float vertical)
         {
 
@@ -83,7 +89,7 @@ namespace ScrapyardChar
 
                 GetComponent<Rigidbody>().MoveRotation(newRotation); // ROtate
 
-                if (isBoosting)
+                if (isBoosting && allowBoost)
                 {
                     anim.SetBool(isBoost, true); // if moving enable run animation
                     rb.MovePosition(transform.position + transform.forward * 2 * speed * Time.deltaTime); //Translate the rigidbody

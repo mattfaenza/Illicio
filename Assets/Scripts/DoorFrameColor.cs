@@ -28,6 +28,6 @@ public class DoorFrameColor : MonoBehaviour {
             rend.materials[2] = newMaterial;
             rend.materials = mats;
         }
-        }
-
     }
+
+}

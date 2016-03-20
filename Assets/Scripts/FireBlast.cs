@@ -3,6 +3,8 @@ using System.Collections;
 
 public class FireBlast : MonoBehaviour {
 
+    private int a;
+    private Vector3 temp;
     public Renderer rend;
     public BoxCollider col;
     private bool isDeactivated;
@@ -10,6 +12,7 @@ public class FireBlast : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         delay = 3.0f;
+        a = 1;
         rend = GetComponent<MeshRenderer>();
         col = GetComponent<BoxCollider>();
     }
@@ -29,6 +32,8 @@ public class FireBlast : MonoBehaviour {
 	void Update () {
         if(isDeactivated)
         {
+            rend.enabled = false;
+            col.enabled = false;
             //appear safe, for a time (delay)
             if (delay >= 0)
             {
@@ -36,6 +41,7 @@ public class FireBlast : MonoBehaviour {
             }
             else {
                 rend.enabled = false;
+                col.enabled = true;
                 //appear dangerous but no flame until collision
                 delay = 3.0f;
                 isDeactivated = false;
@@ -45,16 +51,34 @@ public class FireBlast : MonoBehaviour {
 
     }
 
+    private void scaleIt(Transform t)
+    {
+        //scale up
+        if (a > 0)
+        {
+            temp = transform.localScale;
+            temp.x = temp.x *2;
+            temp.y = temp.y * 2;
+            temp.z = temp.z * 2;
+            transform.localScale = temp;
+        }
+        //scale down
+        else
+        {
+
+        }
+    }
+
     public void OnTriggerEnter(Collider coll)
     {
         //Only react to player, hologram, or enemies
         if (col.gameObject.tag == "Player" || col.gameObject.tag == "Hologram" || col.gameObject.tag == "Enemy")
         {
-            isDeactivated = false;
             rend.enabled = true;
-            //play fire animation, collider dies, begin to  recharge
+            //scale up size
+            //play fire animation, collider dies
             isDeactivated = true;
-            rend.enabled = false;
+
         }
     }
 }
