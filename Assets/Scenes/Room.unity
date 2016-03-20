@@ -529,7 +529,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 0}
-  targetToDeactivate: {fileID: 0}
+  targetToDeactivate: {fileID: 1047040251}
 --- !u!65 &128602657
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -538,7 +538,7 @@ BoxCollider:
   m_GameObject: {fileID: 128602655}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.006020086, y: 0.0030200863, z: 0.45}
   m_Center: {x: 1.7462298e-10, y: 4.656613e-10, z: 0.2111066}
@@ -2436,6 +2436,10 @@ Prefab:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 287e85d93a3954a33969dbad5f5b6dcd, type: 2}
+    - target: {fileID: 100000, guid: 7c8df671b338e4b7b93ed596ae8883d2, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7c8df671b338e4b7b93ed596ae8883d2, type: 3}
   m_IsPrefabParent: 0
@@ -2866,13 +2870,13 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 940369621}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 001fb437a847ad04b91dfa1c2afbf92a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 0}
-  targetToDeactivate: {fileID: 0}
+  targetToDeactivate: {fileID: 1583700989}
 --- !u!65 &940369623
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2881,7 +2885,7 @@ BoxCollider:
   m_GameObject: {fileID: 940369621}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.006020086, y: 0.0030200863, z: 0.45}
   m_Center: {x: 1.7462298e-10, y: 4.656613e-10, z: 0.2111066}
@@ -2971,6 +2975,10 @@ Transform:
 GameObject:
   m_PrefabParentObject: {fileID: 147326, guid: 02f576bb1c6a84642b3dc815da0b5add, type: 2}
   m_PrefabInternal: {fileID: 1580926669}
+--- !u!1 &1047040251 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 119204, guid: 832efec928e2f46959999c7200c3c7a1, type: 2}
+  m_PrefabInternal: {fileID: 2121077964}
 --- !u!1 &1068482479
 GameObject:
   m_ObjectHideFlags: 0
@@ -3062,7 +3070,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 0}
-  targetToDeactivate: {fileID: 0}
+  targetToDeactivate: {fileID: 1423795185}
 --- !u!65 &1073135972
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3071,7 +3079,7 @@ BoxCollider:
   m_GameObject: {fileID: 1073135970}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.006020086, y: 0.0030200863, z: 0.45}
   m_Center: {x: 1.7462298e-10, y: 4.656613e-10, z: 0.2111066}
@@ -4101,6 +4109,10 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1420371931}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1423795185 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 119204, guid: 832efec928e2f46959999c7200c3c7a1, type: 2}
+  m_PrefabInternal: {fileID: 656186692}
 --- !u!1001 &1514250188
 Prefab:
   m_ObjectHideFlags: 0
@@ -4388,6 +4400,10 @@ Transform:
 GameObject:
   m_PrefabParentObject: {fileID: 124646, guid: 02f576bb1c6a84642b3dc815da0b5add, type: 2}
   m_PrefabInternal: {fileID: 1580926669}
+--- !u!1 &1583700989 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 119204, guid: 832efec928e2f46959999c7200c3c7a1, type: 2}
+  m_PrefabInternal: {fileID: 414377563}
 --- !u!1001 &1629595877
 Prefab:
   m_ObjectHideFlags: 0
@@ -5922,22 +5938,6 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 417860, guid: 832efec928e2f46959999c7200c3c7a1, type: 2}
       propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 417860, guid: 832efec928e2f46959999c7200c3c7a1, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 0.21934615
-      objectReference: {fileID: 0}
-    - target: {fileID: 417860, guid: 832efec928e2f46959999c7200c3c7a1, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 0.21934615
-      objectReference: {fileID: 0}
-    - target: {fileID: 417860, guid: 832efec928e2f46959999c7200c3c7a1, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 12.789625
-      objectReference: {fileID: 0}
-    - target: {fileID: 2393274, guid: 832efec928e2f46959999c7200c3c7a1, type: 2}
-      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
