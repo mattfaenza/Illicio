@@ -35,6 +35,7 @@ namespace ScrapyardChar
         {
             h = Input.GetAxis("Horizontal");
             v = Input.GetAxis("Vertical");
+            if (Input.GetButton("Draw")) h = v = 0.0f;
             //b = Input.GetKey("joystick 1 button 14");
 
             //if (Input.GetKey ("joystick 1 button 14")) {
