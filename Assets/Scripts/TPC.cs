@@ -94,14 +94,6 @@ namespace ScrapyardChar
         }
 
 
-        public void OnTriggerEnter(Collider col)
-        {
-            if (col.gameObject.tag == "Enemy" || col.gameObject.tag == "Hazard")
-            {
-                //played death animation here, delay a SHORT moment before respawning
-                gameObject.transform.position = SpawnPoint.transform.position;
-            }
-        }
         public void OnCollisionEnter(Collision col)
         {
             if (col.gameObject.tag == "Enemy" || col.gameObject.tag == "Hazard")

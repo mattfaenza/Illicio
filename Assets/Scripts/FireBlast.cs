@@ -10,13 +10,19 @@ public class FireBlast : MonoBehaviour {
 
     public float onTime = 1.0f, offTime = 3.0f, scaleFactor = 10.0f;
     
-    public Renderer rend;
-    public BoxCollider col;
-    public Transform scaleTarget;
+    private Renderer rend;
+    private Collider col_detect, col_damage;
+    private Transform scaleTarget;
     // Use this for initialization
     void Start () {
         rend = GetComponent<MeshRenderer>();
-        col  = GetComponent<BoxCollider>();
+        col_detect = GetComponent<BoxCollider>();
+        col_damage = GetComponent<CapsuleCollider>();
+        scaleTarget = transform.parent;
+        rend.enabled = false;
+        col_detect.enabled = true;
+        col_damage.enabled = false;
+        scaleTarget.localScale = Vector3.one;
         target.SendMessage("Activate");
     }
 	
@@ -37,7 +43,8 @@ public class FireBlast : MonoBehaviour {
             state = FireState.OFF;
             markTime = Time.time;
             rend.enabled = true;
-            col.enabled = false;
+            col_detect.enabled = false;
+            col_damage.enabled = true;
             target.SendMessage("Deactivate");
         }
     }
@@ -46,7 +53,8 @@ public class FireBlast : MonoBehaviour {
         if (markTime + offTime < Time.time) {
             state = FireState.READY;
             rend.enabled = false;
-            col.enabled = true;
+            col_detect.enabled = true;
+            col_damage.enabled = false;
             scaleTarget.localScale = Vector3.one;
             target.SendMessage("Activate");
         }
@@ -58,9 +66,10 @@ public class FireBlast : MonoBehaviour {
             if (coll.gameObject.tag == "Player" || coll.gameObject.tag == "Hologram" || coll.gameObject.tag == "Enemy") {
                 state = FireState.ON;
                 markTime = Time.time;
-                rend.enabled = true;
-                col.enabled = true;
                 scaleTarget.localScale = Vector3.zero;
+                rend.enabled = true;
+                col_detect.enabled = true;
+                col_damage.enabled = true;
             }
         }
     }
