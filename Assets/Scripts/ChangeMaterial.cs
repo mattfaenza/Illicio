@@ -1,15 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class DoorFrameColor : MonoBehaviour {
+public class ChangeMaterial : MonoBehaviour {
 
     public Material[] mats;
-    public Material newMaterial;
+    public Material OnMaterial;
+    public Material OffMaterial;
     private bool activated;
-    private Color color;
     public Renderer rend;
 
-    void Start () {
+    void Start()
+    {
         activated = false;
         rend = gameObject.GetComponent<Renderer>();
     }
@@ -19,15 +20,24 @@ public class DoorFrameColor : MonoBehaviour {
         activated = true;
     }
 
+    void Deactivate()
+    {
+        activated = false;
+    }
 
     // Update is called once per frame
-    void Update () {
-        if(activated)
+    void Update()
+    {
+        if (activated)
         {
             mats = rend.materials;
-            mats[2] = newMaterial;
+            mats[0] = OnMaterial;
+            rend.materials = mats;
+        } else
+        {
+            mats = rend.materials;
+            mats[0] = OffMaterial;
             rend.materials = mats;
         }
     }
-
 }

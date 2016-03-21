@@ -11,7 +11,7 @@ public class CameraFollow : MonoBehaviour {
 
     public GameObject player;
     private Vector3 offset;
-
+    
 	void Start () {
         offset = player.transform.position - transform.position;
 	}
