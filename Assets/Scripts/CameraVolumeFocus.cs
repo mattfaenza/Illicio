@@ -3,6 +3,7 @@
  * Set Main Camera to your Main Camera
  * Create room volumes, remove the renderer, set colliders to trigger, and tag them as 'Volume'
  * There should be a 'RoomVolumes' prefab as an example.
+ * Ensure a Respawn object exists that is tagged 'Respawn'.
  */
 
 using UnityEngine;
@@ -12,9 +13,20 @@ public class CameraVolumeFocus : MonoBehaviour {
     public float speed = 10.0f;
     public GameObject MainCamera;
     private Vector3 destination;
-    
+    private bool newRoom;
+    private GameObject playerChar;
+    private GameObject Spawn;
+
     void Update() {
         MainCamera.transform.position = Vector3.MoveTowards(MainCamera.transform.position, destination, speed);
+        if (newRoom)
+        {
+            Spawn = GameObject.FindWithTag("Respawn");
+            //update spawn position using player's current position
+            playerChar = GameObject.FindWithTag("Player");
+            Spawn.transform.position = playerChar.transform.position;
+            newRoom = false;
+        }
     }
 
     Vector2 intersection2d(Vector2 a_p, Vector2 a_v, Vector2 b_p, Vector2 b_v) {
@@ -49,7 +61,7 @@ public class CameraVolumeFocus : MonoBehaviour {
     }
     void OnTriggerEnter(Collider col) {
         if (!col.CompareTag("Volume")) return;
-
+        newRoom = true;
         Vector3 pos, scl, top, bot, lft, rgt;
         pos = col.gameObject.transform.position;
         scl = col.gameObject.transform.lossyScale;

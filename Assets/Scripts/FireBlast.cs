@@ -17,6 +17,7 @@ public class FireBlast : MonoBehaviour {
     void Start () {
         rend = GetComponent<MeshRenderer>();
         col  = GetComponent<BoxCollider>();
+        target.SendMessage("Activate");
     }
 	
     void Update () {

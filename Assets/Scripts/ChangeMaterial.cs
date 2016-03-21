@@ -31,12 +31,12 @@ public class ChangeMaterial : MonoBehaviour {
         if (activated)
         {
             mats = rend.materials;
-            mats[0] = OffMaterial;
+            mats[0] = OnMaterial;
             rend.materials = mats;
         } else
         {
             mats = rend.materials;
-            mats[0] = OnMaterial;
+            mats[0] = OffMaterial;
             rend.materials = mats;
         }
     }
