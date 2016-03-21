@@ -44,15 +44,7 @@ namespace ScrapyardChar
             //b = Input.GetKey("joystick 1 button 14");
 
             //if (Input.GetKey ("joystick 1 button 14")) {
-            if (Input.GetButton("Boost"))
-            {
-                isBoosting = true;
-
-            }
-            else {
-
-                isBoosting = false;
-            }
+            isBoosting = Input.GetButton("Boost");
             if (!canJump)
             {
                 canJump = Input.GetButtonDown("Jump");
@@ -109,11 +101,19 @@ namespace ScrapyardChar
         }
 
 
+        public void OnTriggerEnter(Collider col)
+        {
+            if (col.gameObject.tag == "Enemy" || col.gameObject.tag == "Hazard")
+            {
+                //played death animation here, delay a SHORT moment before respawning
+                gameObject.transform.position = SpawnPoint.transform.position;
+            }
+        }
         public void OnCollisionEnter(Collision col)
         {
             if (col.gameObject.tag == "Enemy" || col.gameObject.tag == "Hazard")
             {
-                   //played death animation here, delay a SHORT moment before respawning
+                //played death animation here, delay a SHORT moment before respawning
                 gameObject.transform.position = SpawnPoint.transform.position;
             }
         }
