@@ -15427,6 +15427,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1347423900}
   m_RootOrder: 1
+--- !u!1 &1362484629 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 121548, guid: e541cc33273924304ae3d02d4a3f7dc7, type: 2}
+  m_PrefabInternal: {fileID: 1629595877}
+--- !u!114 &1362484630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1362484629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36ec4579bab3ff14ab5a7a02a7c3edc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 2006138216}
 --- !u!1001 &1364255065
 Prefab:
   m_ObjectHideFlags: 0
@@ -18112,6 +18128,18 @@ Prefab:
     - target: {fileID: 121548, guid: e541cc33273924304ae3d02d4a3f7dc7, type: 2}
       propertyPath: m_Name
       value: Laser Poll
+      objectReference: {fileID: 0}
+    - target: {fileID: 6596564, guid: e541cc33273924304ae3d02d4a3f7dc7, type: 2}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6596564, guid: e541cc33273924304ae3d02d4a3f7dc7, type: 2}
+      propertyPath: m_Size.y
+      value: 0.52630335
+      objectReference: {fileID: 0}
+    - target: {fileID: 6596564, guid: e541cc33273924304ae3d02d4a3f7dc7, type: 2}
+      propertyPath: m_Center.y
+      value: 0.25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e541cc33273924304ae3d02d4a3f7dc7, type: 2}
@@ -22472,6 +22500,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 179126396}
   m_RootOrder: 0
+--- !u!1 &2006138216 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 194156, guid: 581cdf75cdc1a4e96b6e84c8c0c0321a, type: 2}
+  m_PrefabInternal: {fileID: 2131374460}
+--- !u!114 &2006138217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2006138216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c93c7e5ca1dac504d9385f80c268aede, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2016608474
 GameObject:
   m_ObjectHideFlags: 0
@@ -24424,6 +24467,10 @@ Prefab:
     - target: {fileID: 194156, guid: 581cdf75cdc1a4e96b6e84c8c0c0321a, type: 2}
       propertyPath: m_TagString
       value: Hazard
+      objectReference: {fileID: 0}
+    - target: {fileID: 2385182, guid: 581cdf75cdc1a4e96b6e84c8c0c0321a, type: 2}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 581cdf75cdc1a4e96b6e84c8c0c0321a, type: 2}
