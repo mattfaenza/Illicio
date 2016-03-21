@@ -12,14 +12,8 @@ namespace ScrapyardChar
         private bool isBoosting;
         private Animator anim;
         private Collider playerCollider;
-        private bool playerJump;
         private bool canJump;
-        private float groundDist = 0.1f;
         private bool allowBoost;
-
-        //[Range(1f, 4f)][SerializeField] float gravMult = 2f;
-
-        public float jumpPower = 6;
         public float speed;
         public GameObject SpawnPoint;
         public LayerMask ground;
@@ -58,7 +52,6 @@ namespace ScrapyardChar
         {
 
             MovementManagement(h, v); // Handles the direction its facing and moving
-            playerJump = false;
 
         }
 

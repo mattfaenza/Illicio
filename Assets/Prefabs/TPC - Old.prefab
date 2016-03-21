@@ -6227,6 +6227,7 @@ GameObject:
   - 136: {fileID: 13696674}
   - 114: {fileID: 11487080}
   - 114: {fileID: 11414398}
+  - 114: {fileID: 11435396}
   m_Layer: 0
   m_Name: TPC - Old
   m_TagString: Player
@@ -12396,6 +12397,19 @@ MonoBehaviour:
   markerPoints: {fileID: 131822, guid: 64ade5ef7416b46c195c8a43a2e9118c, type: 2}
   holoAnim: {fileID: 9533016, guid: 915d440860873e3418bf0edc2ae6b3eb, type: 2}
   followSpeed: 3
+--- !u!114 &11435396
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 193266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e988724804ffc1489b00b9e2d5fb5e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 10
+  MainCamera: {fileID: 0}
 --- !u!114 &11487080
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12407,7 +12421,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ba5c3ebe7c7141979304d33e10db745, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpPower: 6
   speed: 9
   SpawnPoint: {fileID: 146180, guid: 84b917210659ed546b5ab165f71019eb, type: 2}
   ground:

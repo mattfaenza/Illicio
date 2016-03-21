@@ -134,6 +134,7 @@ MonoBehaviour:
   speed: 12
   follower: {fileID: 0}
   drawStepTime: 0.1
+  canvas: {fileID: 0}
 --- !u!120 &12058504
 LineRenderer:
   m_ObjectHideFlags: 1
