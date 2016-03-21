@@ -53,10 +53,6 @@ public class ObjectFollow : MonoBehaviour
     }
     void FollowEnd() {
         state = FollowStates.IDLE;
-        if(dm == null)
-        {
-            dm = markerPoints.GetComponent<DrawMarker>();
-        }
         dm.DrawReset();
         holoAnim.SetBool(isRunning, false);
         gameObject.SetActive(false);

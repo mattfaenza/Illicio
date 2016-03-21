@@ -15,9 +15,8 @@ public class DrawMarker : MonoBehaviour {
     public GameObject marker;
     public float speed = 9.0f;
 	public GameObject follower; //The object that will follow the marker
-    public float drawStepTime = 0.1f;
-    //public GameObject canvas;
 
+    public float drawStepTime = 0.1f;
     private enum DrawStates { READY, DRAW, FOLLOW };
     private DrawStates state = DrawStates.READY;
     private int linePoints = 0;
@@ -52,12 +51,11 @@ public class DrawMarker : MonoBehaviour {
     }
     void DrawStart()
     {
-        ScaleTime(0.1f);
+        ScaleTime(0.0f);
         linePoints = 0;
         wpNum = 0;
         timeMark = Time.realtimeSinceStartup;
         state = DrawStates.DRAW;
-        //canvas.SetActive(true);
     }
     void DrawMain()
     {
@@ -76,7 +74,6 @@ public class DrawMarker : MonoBehaviour {
         marker.GetComponent<Renderer>().enabled = false;
         follower.GetComponent<ObjectFollow>().FollowPrime();
         state = DrawStates.FOLLOW;
-        //canvas.SetActive(false);
     }
     public void DrawReset()
     {

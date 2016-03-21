@@ -12,8 +12,14 @@ namespace ScrapyardChar
         private bool isBoosting;
         private Animator anim;
         private Collider playerCollider;
+        private bool playerJump;
         private bool canJump;
+        private float groundDist = 0.1f;
         private bool allowBoost;
+
+        //[Range(1f, 4f)][SerializeField] float gravMult = 2f;
+
+        public float jumpPower = 6;
         public float speed;
         public GameObject SpawnPoint;
         public LayerMask ground;
@@ -38,7 +44,15 @@ namespace ScrapyardChar
             //b = Input.GetKey("joystick 1 button 14");
 
             //if (Input.GetKey ("joystick 1 button 14")) {
-            isBoosting = Input.GetButton("Boost");
+            if (Input.GetButton("Boost"))
+            {
+                isBoosting = true;
+
+            }
+            else {
+
+                isBoosting = false;
+            }
             if (!canJump)
             {
                 canJump = Input.GetButtonDown("Jump");
@@ -52,6 +66,7 @@ namespace ScrapyardChar
         {
 
             MovementManagement(h, v); // Handles the direction its facing and moving
+            playerJump = false;
 
         }
 
@@ -94,19 +109,11 @@ namespace ScrapyardChar
         }
 
 
-        public void OnTriggerEnter(Collider col)
-        {
-            if (col.gameObject.tag == "Enemy" || col.gameObject.tag == "Hazard")
-            {
-                //played death animation here, delay a SHORT moment before respawning
-                gameObject.transform.position = SpawnPoint.transform.position;
-            }
-        }
         public void OnCollisionEnter(Collision col)
         {
             if (col.gameObject.tag == "Enemy" || col.gameObject.tag == "Hazard")
             {
-                //played death animation here, delay a SHORT moment before respawning
+                   //played death animation here, delay a SHORT moment before respawning
                 gameObject.transform.position = SpawnPoint.transform.position;
             }
         }

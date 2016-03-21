@@ -7,11 +7,11 @@ public class DoorFrameColor : MonoBehaviour {
     public Material newMaterial;
     private bool activated;
     private Color color;
-    public Renderer rend;
+    public MeshRenderer rend;
 
     void Start () {
         activated = false;
-        rend = gameObject.GetComponent<Renderer>();
+        rend = gameObject.GetComponent<MeshRenderer>();
     }
 
     void Activate()
@@ -25,7 +25,7 @@ public class DoorFrameColor : MonoBehaviour {
         if(activated)
         {
             mats = rend.materials;
-            mats[2] = newMaterial;
+            rend.materials[2] = newMaterial;
             rend.materials = mats;
         }
     }

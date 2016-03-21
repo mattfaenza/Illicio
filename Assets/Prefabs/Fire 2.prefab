@@ -87,12 +87,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f5f6dd38e33b5d44801bd0ce64c617f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onTime: 1
-  offTime: 3
-  scaleFactor: 10
   rend: {fileID: 2393274}
-  col: {fileID: 6518886}
-  scaleTarget: {fileID: 417860}
+  col: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
