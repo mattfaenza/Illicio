@@ -3,6 +3,7 @@ using System.Collections;
 
 public class FireBlast : MonoBehaviour {
 
+    public GameObject target;
     private enum FireState { READY, ON, OFF };
     private FireState state = FireState.READY;
     private float markTime;
@@ -36,6 +37,7 @@ public class FireBlast : MonoBehaviour {
             markTime = Time.time;
             rend.enabled = true;
             col.enabled = false;
+            target.SendMessage("Deactivate");
         }
     }
     void FireOff() {
@@ -45,6 +47,7 @@ public class FireBlast : MonoBehaviour {
             rend.enabled = false;
             col.enabled = true;
             scaleTarget.localScale = Vector3.one;
+            target.SendMessage("Activate");
         }
 
     }

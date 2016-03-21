@@ -14,7 +14,7 @@ public class BlockPath : MonoBehaviour {
 	
 	}
 
-    public void OnCollisionExit(Collision col)
+    public void OnTriggerExit(Collider col)
     {
         if (col.gameObject.tag == "Player")
         {
