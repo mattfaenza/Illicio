@@ -6,10 +6,190 @@ ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
     100000: //RootNode
+    100002: honeycomb.001
+    100004: Wall L.110
+    100006: Wall L.111
+    100008: Wall L.112
+    100010: Wall L.113
+    100012: Wall L.114
+    100014: Wall L.115
+    100016: Wall L.116
+    100018: Wall L.117
+    100020: Wall L.118
+    100022: Wall L.119
+    100024: Wall L.120
+    100026: Wall L.121
+    100028: Wall L.122
+    100030: Wall L.123
+    100032: Wall L.124
+    100034: Wall L.125
+    100036: Wall L.126
+    100038: Wall L.127
+    100040: Wall L.128
+    100042: Wall L.129
+    100044: Wall L.130
+    100046: Wall L.131
+    100048: Wall L.132
+    100050: Wall L.133
+    100052: Wall L.134
+    100054: Wall L.135
+    100056: Wall L.136
+    100058: Wall L.137
+    100060: Wall L.138
+    100062: Wall L.139
+    100064: Wall Straight.004
+    100066: Wall Straight.005
+    100068: Wall_L.012_Cube.005
+    100070: Wall_L.012_Cube.006
+    100072: Wall_L.012_Cube.007
     400000: //RootNode
+    400002: honeycomb.001
+    400004: Wall L.110
+    400006: Wall L.111
+    400008: Wall L.112
+    400010: Wall L.113
+    400012: Wall L.114
+    400014: Wall L.115
+    400016: Wall L.116
+    400018: Wall L.117
+    400020: Wall L.118
+    400022: Wall L.119
+    400024: Wall L.120
+    400026: Wall L.121
+    400028: Wall L.122
+    400030: Wall L.123
+    400032: Wall L.124
+    400034: Wall L.125
+    400036: Wall L.126
+    400038: Wall L.127
+    400040: Wall L.128
+    400042: Wall L.129
+    400044: Wall L.130
+    400046: Wall L.131
+    400048: Wall L.132
+    400050: Wall L.133
+    400052: Wall L.134
+    400054: Wall L.135
+    400056: Wall L.136
+    400058: Wall L.137
+    400060: Wall L.138
+    400062: Wall L.139
+    400064: Wall Straight.004
+    400066: Wall Straight.005
+    400068: Wall_L.012_Cube.005
+    400070: Wall_L.012_Cube.006
+    400072: Wall_L.012_Cube.007
     2300000: //RootNode
+    2300002: honeycomb.001
+    2300004: Wall L.110
+    2300006: Wall L.111
+    2300008: Wall L.112
+    2300010: Wall L.113
+    2300012: Wall L.114
+    2300014: Wall L.115
+    2300016: Wall L.116
+    2300018: Wall L.117
+    2300020: Wall L.118
+    2300022: Wall L.119
+    2300024: Wall L.120
+    2300026: Wall L.121
+    2300028: Wall L.122
+    2300030: Wall L.123
+    2300032: Wall L.124
+    2300034: Wall L.125
+    2300036: Wall L.126
+    2300038: Wall L.127
+    2300040: Wall L.128
+    2300042: Wall L.129
+    2300044: Wall L.130
+    2300046: Wall L.131
+    2300048: Wall L.132
+    2300050: Wall L.133
+    2300052: Wall L.134
+    2300054: Wall L.135
+    2300056: Wall L.136
+    2300058: Wall L.137
+    2300060: Wall L.138
+    2300062: Wall L.139
+    2300064: Wall Straight.004
+    2300066: Wall Straight.005
+    2300068: Wall_L.012_Cube.005
+    2300070: Wall_L.012_Cube.006
+    2300072: Wall_L.012_Cube.007
     3300000: //RootNode
+    3300002: honeycomb.001
+    3300004: Wall L.110
+    3300006: Wall L.111
+    3300008: Wall L.112
+    3300010: Wall L.113
+    3300012: Wall L.114
+    3300014: Wall L.115
+    3300016: Wall L.116
+    3300018: Wall L.117
+    3300020: Wall L.118
+    3300022: Wall L.119
+    3300024: Wall L.120
+    3300026: Wall L.121
+    3300028: Wall L.122
+    3300030: Wall L.123
+    3300032: Wall L.124
+    3300034: Wall L.125
+    3300036: Wall L.126
+    3300038: Wall L.127
+    3300040: Wall L.128
+    3300042: Wall L.129
+    3300044: Wall L.130
+    3300046: Wall L.131
+    3300048: Wall L.132
+    3300050: Wall L.133
+    3300052: Wall L.134
+    3300054: Wall L.135
+    3300056: Wall L.136
+    3300058: Wall L.137
+    3300060: Wall L.138
+    3300062: Wall L.139
+    3300064: Wall Straight.004
+    3300066: Wall Straight.005
+    3300068: Wall_L.012_Cube.005
+    3300070: Wall_L.012_Cube.006
+    3300072: Wall_L.012_Cube.007
     4300000: Wall L.016
+    4300002: Wall_L.012_Cube.007
+    4300004: honeycomb.001
+    4300006: Wall L.139
+    4300008: Wall L.138
+    4300010: Wall L.137
+    4300012: Wall L.136
+    4300014: Wall L.135
+    4300016: Wall L.134
+    4300018: Wall L.133
+    4300020: Wall_L.012_Cube.006
+    4300022: Wall L.132
+    4300024: Wall L.131
+    4300026: Wall L.130
+    4300028: Wall L.129
+    4300030: Wall L.128
+    4300032: Wall_L.012_Cube.005
+    4300034: Wall L.127
+    4300036: Wall Straight.005
+    4300038: Wall L.126
+    4300040: Wall L.125
+    4300042: Wall L.124
+    4300044: Wall L.123
+    4300046: Wall L.122
+    4300048: Wall L.121
+    4300050: Wall L.120
+    4300052: Wall L.119
+    4300054: Wall L.118
+    4300056: Wall Straight.004
+    4300058: Wall L.117
+    4300060: Wall L.116
+    4300062: Wall L.115
+    4300064: Wall L.114
+    4300066: Wall L.113
+    4300068: Wall L.112
+    4300070: Wall L.111
+    4300072: Wall L.110
   materials:
     importMaterials: 1
     materialName: 0
