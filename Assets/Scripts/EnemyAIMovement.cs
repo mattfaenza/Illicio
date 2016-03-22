@@ -49,20 +49,6 @@ public class EnemyAIMovement : MonoBehaviour {
 		}
 
 
-		//to change from following player to charging the player when the enemy sees them
-		if(Input.GetKeyDown("joystick 1 button 9") || Input.GetKeyDown(KeyCode.X)){
-
-			chargeDisabled = !chargeDisabled;
-
-			if (chargeDisabled) {
-				playerFollowText.text = "Player Chase: On";
-			} else {
-				playerFollowText.text = "Player Chase: Off";
-			}
-		}
-
-
-
 		// If player detected & Charging the player is disabled
 		if (followPlayer && chargeDisabled && !moveInPath) {
 			player = GameObject.FindGameObjectWithTag ("Player").transform; // Find Player
