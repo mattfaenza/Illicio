@@ -5,7 +5,7 @@ namespace ScrapyardChar
 {
     public class TPC : MonoBehaviour
     {
-
+        private bool notDrawing;
         private float h, v, b; // Axis 
         private Rigidbody rb;
         private bool isMoving;
@@ -40,10 +40,6 @@ namespace ScrapyardChar
 
             //if (Input.GetKey ("joystick 1 button 14")) {
             isBoosting = Input.GetButton("Boost");
-            if (!canJump)
-            {
-                canJump = Input.GetButtonDown("Jump");
-            }
             //GetComponent an axis for boost
             isMoving = h != 0 || v != 0;
             // isBoosting = b != 0;
@@ -51,9 +47,21 @@ namespace ScrapyardChar
 
         void FixedUpdate()
         {
+            if (notDrawing)
+            {
+                MovementManagement(h, v); // Handles the direction its facing and moving
+            }
 
-            MovementManagement(h, v); // Handles the direction its facing and moving
+        }
 
+        public void isDrawing()
+        {
+            notDrawing = true;
+        }
+
+        public void isNotDrawing()
+        {
+            notDrawing = false;
         }
 
         public void boostAllowed()
