@@ -48,21 +48,10 @@ namespace ScrapyardChar
 
         void FixedUpdate()
         {
-            if (!Drawing)
-            {
-                MovementManagement(h, v); // Handles the direction its facing and moving
-            }
 
-        }
+            MovementManagement(h, v); // Handles the direction its facing and moving
 
-        public void isDrawing()
-        {
-            Drawing = true;
-        }
 
-        public void isNotDrawing()
-        {
-            Drawing = false;
         }
 
         public void boostAllowed()

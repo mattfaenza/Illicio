@@ -6,7 +6,6 @@ using System.Collections.Generic;
 
 public class DrawMarker : MonoBehaviour {
 
-    public GameObject targetToMessage;
 	public float timeLimit = 2; // How long can they draw the line for?
 	public LineRenderer lineRender; // Line renderer for drawing things
 	public Color c1 = Color.white; //Start Color of the line
@@ -53,7 +52,6 @@ public class DrawMarker : MonoBehaviour {
     }
     void DrawStart()
     {
-        targetToMessage.SendMessage("isDrawing");
         ScaleTime(0.1f);
         linePoints = 0;
         wpNum = 0;
@@ -74,7 +72,6 @@ public class DrawMarker : MonoBehaviour {
     }
     void DrawEnd()
     {
-        targetToMessage.SendMessage("isNotDrawing");
         ScaleTime(1.0f);
         marker.GetComponent<Renderer>().enabled = false;
         follower.GetComponent<ObjectFollow>().FollowPrime();
