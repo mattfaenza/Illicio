@@ -61,8 +61,7 @@ namespace ScrapyardChar
 
         public void MovementManagement(float horizontal, float vertical)
         {
-
-
+            rb.velocity = rb.angularVelocity = Vector3.zero;
             Vector3 newDirection = new Vector3(h, 0, v);
 
             if (isMoving)
