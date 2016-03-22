@@ -11,9 +11,10 @@ GameObject:
   - 33: {fileID: 3327012}
   - 23: {fileID: 2385182}
   - 65: {fileID: 6563894}
-  m_Layer: 0
+  - 114: {fileID: 11433318}
+  m_Layer: 10
   m_Name: Laser
-  m_TagString: Untagged
+  m_TagString: Hazard
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 1
@@ -24,9 +25,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 194156}
-  m_LocalRotation: {x: -0.7071068, y: -0.000000059604645, z: -0.000000029802322, w: 0.7071067}
-  m_LocalPosition: {x: 94.68654, y: 0.4259997, z: 56.85887}
-  m_LocalScale: {x: 18.28455, y: 18.28455, z: 18.28455}
+  m_LocalRotation: {x: -0.000000074505806, y: -0.000000044703484, z: 0.7071067, w: 0.7071068}
+  m_LocalPosition: {x: -0.1772769, y: 0.11328169, z: -0.008941075}
+  m_LocalScale: {x: 0.20333745, y: 0.2033374, z: 0.2033374}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -71,11 +72,22 @@ BoxCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 194156}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.41436377, y: 0.0021784161, z: 0.2356027}
   m_Center: {x: 0.22111657, y: 0.00000048342696, z: 0.11671212}
+--- !u!114 &11433318
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 194156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c93c7e5ca1dac504d9385f80c268aede, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

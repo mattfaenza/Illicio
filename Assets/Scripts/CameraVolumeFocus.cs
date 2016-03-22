@@ -14,8 +14,15 @@ public class CameraVolumeFocus : MonoBehaviour {
     public GameObject MainCamera;
     private Vector3 destination;
     private bool newRoom;
-    private GameObject playerChar;
+    public GameObject playerChar;
     private GameObject Spawn;
+    private bool Dead;
+    private Vector3 playerPos;
+
+    void Start()
+    {
+        Dead = false;
+    }
 
     void Update() {
         MainCamera.transform.position = Vector3.MoveTowards(MainCamera.transform.position, destination, speed);
@@ -23,10 +30,22 @@ public class CameraVolumeFocus : MonoBehaviour {
         {
             Spawn = GameObject.FindWithTag("Respawn");
             //update spawn position using player's current position
-            playerChar = GameObject.FindWithTag("Player");
-            Spawn.transform.position = playerChar.transform.position;
+            //playerChar = GameObject.FindWithTag("Player");
+            if (!Dead)
+            {
+                Spawn.transform.position = playerChar.transform.position;
+            }
             newRoom = false;
         }
+    }
+
+    void isDead() {
+        Dead = true;
+    }
+
+    void isNotDead()
+    {
+        Dead = false;
     }
 
     Vector2 intersection2d(Vector2 a_p, Vector2 a_v, Vector2 b_p, Vector2 b_v) {

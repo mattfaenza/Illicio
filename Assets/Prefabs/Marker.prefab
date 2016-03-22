@@ -130,10 +130,10 @@ MonoBehaviour:
   c2: {r: 1, g: 1, b: 1, a: 0.5}
   waypoints: []
   playerChar: {fileID: 0}
-  canDraw: 1
   marker: {fileID: 186130}
-  speed: 0.3
+  speed: 12
   follower: {fileID: 0}
+  drawStepTime: 0.1
 --- !u!120 &12058504
 LineRenderer:
   m_ObjectHideFlags: 1

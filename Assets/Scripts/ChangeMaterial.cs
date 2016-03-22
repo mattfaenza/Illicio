@@ -11,7 +11,7 @@ public class ChangeMaterial : MonoBehaviour {
 
     void Start()
     {
-        activated = false;
+        activated = true;
         rend = gameObject.GetComponent<Renderer>();
     }
 

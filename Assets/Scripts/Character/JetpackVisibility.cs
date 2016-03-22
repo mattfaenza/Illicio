@@ -7,12 +7,12 @@ public class JetpackVisibility : MonoBehaviour
     public Material[] mats;
     public Material newMaterial;
     private bool activated;
-    private MeshRenderer rend;
+    private Renderer rend;
 
     void Start()
     {
         activated = false;
-        rend = gameObject.GetComponent<MeshRenderer>();
+        rend = gameObject.GetComponent<Renderer>();
     }
 
     void Activate()
@@ -27,7 +27,7 @@ public class JetpackVisibility : MonoBehaviour
         if (activated)
         {
             mats = rend.materials;
-            rend.materials[2] = newMaterial;
+            mats[2] = newMaterial;
             rend.materials = mats;
         }
     }

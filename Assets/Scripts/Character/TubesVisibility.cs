@@ -1,18 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TubesVisibility : MonoBehaviour
-{
+public class TubesVisibility : MonoBehaviour {
 
-    //public Material[] mats;
+    public Material[] mats;
     public Material newMaterial;
     private bool activated;
-    private MeshRenderer rend;
+    public Renderer rend;
 
     void Start()
     {
         activated = false;
-        rend = gameObject.GetComponent<MeshRenderer>();
+        rend = gameObject.GetComponent<Renderer>();
     }
 
     void Activate()
@@ -26,7 +25,9 @@ public class TubesVisibility : MonoBehaviour
     {
         if (activated)
         {
-            rend.material = newMaterial;
+            mats = rend.materials;
+            mats[0] = newMaterial;
+            rend.materials = mats;
         }
     }
 

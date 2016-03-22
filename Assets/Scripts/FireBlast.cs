@@ -21,7 +21,6 @@ public class FireBlast : MonoBehaviour {
         scaleTarget = transform.parent;
         rend.enabled = false;
         col_detect.enabled = true;
-        col_damage.enabled = false;
         scaleTarget.localScale = Vector3.one;
         target.SendMessage("Activate");
     }
@@ -44,7 +43,6 @@ public class FireBlast : MonoBehaviour {
             markTime = Time.time;
             rend.enabled = true;
             col_detect.enabled = false;
-            col_damage.enabled = true;
             target.SendMessage("Deactivate");
         }
     }
@@ -54,7 +52,6 @@ public class FireBlast : MonoBehaviour {
             state = FireState.READY;
             rend.enabled = false;
             col_detect.enabled = true;
-            col_damage.enabled = false;
             scaleTarget.localScale = Vector3.one;
             target.SendMessage("Activate");
         }
@@ -69,8 +66,8 @@ public class FireBlast : MonoBehaviour {
                 scaleTarget.localScale = Vector3.zero;
                 rend.enabled = true;
                 col_detect.enabled = true;
-                col_damage.enabled = true;
             }
         }
     }
+    
 }

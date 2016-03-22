@@ -8,6 +8,8 @@ TagManager:
   - Hologram
   - Marker
   - Switch
+  - Volume
+  - Spikes
   layers:
   - Default
   - TransparentFX

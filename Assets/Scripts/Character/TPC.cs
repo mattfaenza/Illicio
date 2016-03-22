@@ -5,25 +5,29 @@ namespace ScrapyardChar
 {
     public class TPC : MonoBehaviour
     {
-        private bool Drawing;
-        private float h, v, b; // Axis 
+        private float h, v, b; // Axis
+        private float markTime; //For Time checks
         private Rigidbody rb;
-        private bool isMoving;
-        private bool isBoosting;
+        private bool isMoving, isBoosting;
         private Animator anim;
+        private Animator animDead;
         private Collider playerCollider;
-        private bool canJump;
+        private bool dead;
         private bool allowBoost;
+        private Vector3 playerPos;
+
+        public GameObject deadChar;
         public float speed;
         public GameObject SpawnPoint;
         public LayerMask ground;
+        public float deadTime = 2.0f;
+        public GameObject target;
 
         private int isRunning, isBoost;
 
         // Use this for initialization
         void Start()
         {
-            Drawing = false;
             rb = GetComponent<Rigidbody>(); // Get Rigidbody
             anim = GetComponent<Animator>(); // Get the Animator
             isRunning = Animator.StringToHash("Running");
@@ -43,18 +47,15 @@ namespace ScrapyardChar
             isBoosting = Input.GetButton("Boost");
             //GetComponent an axis for boost
             isMoving = h != 0 || v != 0;
-            // isBoosting = b != 0;
         }
 
         void FixedUpdate()
         {
-
             MovementManagement(h, v); // Handles the direction its facing and moving
-
 
         }
 
-        public void boostAllowed()
+        void boostAllowed()
         {
             allowBoost = true;
         }
@@ -92,19 +93,37 @@ namespace ScrapyardChar
         }
 
 
-        public void OnCollisionEnter(Collision col)
+        public void OnTriggerEnter(Collider col)
         {
-            if (col.gameObject.tag == "Enemy" || col.gameObject.tag == "Hazard")
+            //if (col.gameObject.CompareTag("Enemy") || col.gameObject.CompareTag("Hazard"))
+            if (col.gameObject.CompareTag("Hazard"))
             {
-                //played death animation here, delay a SHORT moment before respawning
+                target.SendMessage("isDead");
+                playerPos = gameObject.transform.position;
+                markTime = Time.time;
+                GameObject clone;
+                clone = (GameObject)Instantiate(deadChar, playerPos, gameObject.transform.rotation);
+                animDead = clone.GetComponent<Animator>(); // Get the Animator
+                animDead.Play("Dead");
                 gameObject.transform.position = SpawnPoint.transform.position;
-            }
-        }
-        public void OnCollisionExit(Collision col)
-        {
-            if (col.gameObject.tag == "Enemy")
+                target.SendMessage("isNotDead");
+            } else if (col.gameObject.CompareTag("Spikes"))
             {
-                gameObject.transform.position = SpawnPoint.transform.position;
+                if(!isBoosting)
+                {
+                    target.SendMessage("isDead");
+                    playerPos = gameObject.transform.position;
+                    markTime = Time.time;
+                    GameObject clone;
+                    clone = (GameObject)Instantiate(deadChar, playerPos, gameObject.transform.rotation);
+                    animDead = clone.GetComponent<Animator>(); // Get the Animator
+                    animDead.Play("Dead");
+                    gameObject.transform.position = SpawnPoint.transform.position;
+                    target.SendMessage("isNotDead");
+                } else
+                {
+                    //get rekt
+                }
             }
         }
 
