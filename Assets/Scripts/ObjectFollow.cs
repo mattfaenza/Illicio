@@ -21,6 +21,7 @@ public class ObjectFollow : MonoBehaviour
         renderers = GetComponentsInChildren<Renderer>();
     }
     public void FollowPrime() {
+        transform.position = Vector3.one * 1000.0f;
         gameObject.SetActive(true);
         state = FollowStates.READY;
     }
