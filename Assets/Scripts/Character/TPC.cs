@@ -5,7 +5,7 @@ namespace ScrapyardChar
 {
     public class TPC : MonoBehaviour
     {
-        private bool notDrawing;
+        private bool Drawing;
         private float h, v, b; // Axis 
         private Rigidbody rb;
         private bool isMoving;
@@ -23,6 +23,7 @@ namespace ScrapyardChar
         // Use this for initialization
         void Start()
         {
+            Drawing = false;
             rb = GetComponent<Rigidbody>(); // Get Rigidbody
             anim = GetComponent<Animator>(); // Get the Animator
             isRunning = Animator.StringToHash("Running");
@@ -47,7 +48,7 @@ namespace ScrapyardChar
 
         void FixedUpdate()
         {
-            if (notDrawing)
+            if (!Drawing)
             {
                 MovementManagement(h, v); // Handles the direction its facing and moving
             }
@@ -56,12 +57,12 @@ namespace ScrapyardChar
 
         public void isDrawing()
         {
-            notDrawing = true;
+            Drawing = true;
         }
 
         public void isNotDrawing()
         {
-            notDrawing = false;
+            Drawing = false;
         }
 
         public void boostAllowed()

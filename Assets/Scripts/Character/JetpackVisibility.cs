@@ -7,8 +7,7 @@ public class JetpackVisibility : MonoBehaviour
     public Material[] mats;
     public Material newMaterial;
     private bool activated;
-    private Color color;
-    public MeshRenderer rend;
+    private MeshRenderer rend;
 
     void Start()
     {
