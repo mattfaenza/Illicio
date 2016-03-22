@@ -18,10 +18,10 @@ public class PlayerDetect : MonoBehaviour {
         if (col.gameObject.tag == "Player")
         {
 
-            if (this.transform.parent.gameObject.GetComponent<EnemyAIMovement>().followPlayer == false)
+            if (this.transform.parent.gameObject.GetComponent<BullAIMovement>().followPlayer == false)
             {
-                this.transform.parent.gameObject.GetComponent<EnemyAIMovement>().followPlayer = true;
-                this.transform.parent.gameObject.GetComponent<EnemyAIMovement>().moveInPath = false;
+                this.transform.parent.gameObject.GetComponent<BullAIMovement>().followPlayer = true;
+                this.transform.parent.gameObject.GetComponent<BullAIMovement>().moveInPath = false;
 
 
             }

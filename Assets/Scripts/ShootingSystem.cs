@@ -9,9 +9,18 @@ public class ShootingSystem : MonoBehaviour {
     public GameObject projectile;
     public GameObject _target;
     public List<GameObject> projectileSpawns;
+    public enum AnimalType {Flee, Attack};
+    public AnimalType type;
+    NavMeshAgent agent; // Reference to the nav mesh agent.
 
     List<GameObject> _lastProjectiles = new List<GameObject>();
     float _fireTimer = 0.0f;
+
+    void Start()
+    {
+        agent = GetComponent<NavMeshAgent>(); // Navmesh agent 
+        type = AnimalType.Attack;
+    }
 
     // Update is called once per frame
     void Update()
@@ -21,17 +30,26 @@ public class ShootingSystem : MonoBehaviour {
             return;
         }
         else {
-            _fireTimer += Time.deltaTime;
-
-            if (_fireTimer >= fireRate)
+            if (type == AnimalType.Flee)
             {
-                float angle = Quaternion.Angle(transform.rotation, Quaternion.LookRotation(_target.transform.position - transform.position));
+                Vector3 FleeDirection = transform.position - _target.transform.position;
+                agent.SetDestination(_target.transform.position + (FleeDirection.normalized * 30f));
+                type = AnimalType.Attack;
+            }
+            else if (type == AnimalType.Attack)
+            {
+                _fireTimer += Time.deltaTime;
 
-                if (angle < fieldOfView)
+                if (_fireTimer >= fireRate)
                 {
-                    SpawnProjectiles();
+                    float angle = Quaternion.Angle(transform.rotation, Quaternion.LookRotation(_target.transform.position - transform.position));
 
-                    _fireTimer = 0.0f;
+                    if (angle < fieldOfView)
+                    {
+                        SpawnProjectiles();
+
+                        _fireTimer = 0.0f;
+                    }
                 }
             }
         }
@@ -43,7 +61,13 @@ public class ShootingSystem : MonoBehaviour {
         {
             return;
         }
-        _lastProjectiles.Clear();
+
+        if (_lastProjectiles.Count > 1)
+        {
+            type = AnimalType.Flee;
+            _lastProjectiles.Clear();
+        }
+        
 
         for (int i = 0; i < projectileSpawns.Count; i++)
         {

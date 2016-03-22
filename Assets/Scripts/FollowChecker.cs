@@ -21,10 +21,10 @@ public class FollowChecker : MonoBehaviour {
 
     void OnTriggerEnter(Collider target)
     {
-        if (gameObject.GetComponent<EnemyAIMovement>().followPlayer == false)
+        if (gameObject.GetComponent<BullAIMovement>().followPlayer == false)
         {
-            gameObject.GetComponent<EnemyAIMovement>().followPlayer = true;
-            gameObject.GetComponent<EnemyAIMovement>().moveInPath = false;
+            gameObject.GetComponent<BullAIMovement>().followPlayer = true;
+            gameObject.GetComponent<BullAIMovement>().moveInPath = false;
 
 
         }

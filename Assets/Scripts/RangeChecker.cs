@@ -6,7 +6,13 @@ public class RangeChecker : MonoBehaviour {
     public List<string> tags;
 
     List<GameObject> _targets = new List<GameObject>();
-
+    public GameObject exclamation;  // When the enemy spots the player, this will show up
+    LizardAIMovement _AI;
+    void Start()
+    {
+        exclamation.SetActive(false);
+        _AI = GetComponent<LizardAIMovement>();
+    }
     //void Update()
     //{
     //    Debug.Log(_targets.Count);
@@ -21,12 +27,13 @@ public class RangeChecker : MonoBehaviour {
 
     void OnTriggerEnter(Collider target)
     {
-        if (gameObject.GetComponent<EnemyAIMovement>().followPlayer == false)
+        if (target.gameObject.tag == "Player")
         {
-            gameObject.GetComponent<EnemyAIMovement>().followPlayer = true;
-            //this.transform.parent.gameObject.GetComponent<EnemyAIMovement>().moveInPath = false;
-
-
+            exclamation.SetActive(true);
+        }
+        else if (target.gameObject.tag == "Untagged")
+        {
+            _AI.SetDestination(_AI.getWaypoints()[0].position);
         }
         bool invalid = true;
 
@@ -47,6 +54,10 @@ public class RangeChecker : MonoBehaviour {
 
     void OnTriggerExit(Collider target)
     {
+        if (target.gameObject.tag == "Player")
+        {
+            exclamation.SetActive(false);
+        }
         for (int i = 0; i < _targets.Count; i++)
         {
             if (target.gameObject == _targets[i])

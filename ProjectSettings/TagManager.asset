@@ -8,6 +8,9 @@ TagManager:
   - Hologram
   - Marker
   - Switch
+  - Enemy
+  - EnemyDirection
+  - Room
   layers:
   - Default
   - TransparentFX
