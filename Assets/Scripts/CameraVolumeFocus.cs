@@ -18,6 +18,8 @@ public class CameraVolumeFocus : MonoBehaviour {
     private GameObject Spawn;
     private bool Dead;
     private Vector3 playerPos;
+    private GameObject currentVolume;
+    public GameObject[] Volumes;
 
     void Start()
     {
@@ -35,6 +37,8 @@ public class CameraVolumeFocus : MonoBehaviour {
             {
                 Spawn.transform.position = playerChar.transform.position;
             }
+            //switch light
+
             newRoom = false;
         }
     }
@@ -80,6 +84,13 @@ public class CameraVolumeFocus : MonoBehaviour {
     }
     void OnTriggerEnter(Collider col) {
         if (!col.CompareTag("Volume")) return;
+        currentVolume = col.gameObject;
+        currentVolume.GetComponentInChildren<Light>().enabled = true;
+        Volumes = currentVolume.GetComponentInParent<GameObject>().GetComponentsInChildren<GameObject>();
+        foreach(GameObject volume in Volumes)
+        {
+            if(currentVolume != volume) { volume.GetComponent<Light>().enabled = false; }
+        }
         newRoom = true;
         Vector3 pos, scl, top, bot, lft, rgt;
         pos = col.gameObject.transform.position;

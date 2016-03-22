@@ -11,13 +11,12 @@ public class FireBlast : MonoBehaviour {
     public float onTime = 1.0f, offTime = 3.0f, scaleFactor = 10.0f;
     
     private Renderer rend;
-    private Collider col_detect, col_damage;
+    private Collider col_detect;
     private Transform scaleTarget;
     // Use this for initialization
     void Start () {
         rend = GetComponent<MeshRenderer>();
         col_detect = GetComponent<BoxCollider>();
-        col_damage = GetComponent<CapsuleCollider>();
         scaleTarget = transform.parent;
         rend.enabled = false;
         col_detect.enabled = true;
