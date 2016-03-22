@@ -85,12 +85,13 @@ public class CameraVolumeFocus : MonoBehaviour {
     void OnTriggerEnter(Collider col) {
         if (!col.CompareTag("Volume")) return;
         currentVolume = col.gameObject;
-        currentVolume.GetComponentInChildren<Light>().enabled = true;
-        Volumes = currentVolume.GetComponentInParent<GameObject>().GetComponentsInChildren<GameObject>();
-        foreach(GameObject volume in Volumes)
-        {
-            if(currentVolume != volume) { volume.GetComponent<Light>().enabled = false; }
-        }
+//        Volumes = currentVolume.GetComponentInParent<GameObject>().GetComponentsInChildren<GameObject>();
+//        foreach(GameObject volume in Volumes)
+//        {
+//            if(currentVolume != volume) { volume.GetComponent<Light>().enabled = false; }
+//        }
+	//	currentVolume.GetComponentInChildren<Light>().enabled = true;
+
         newRoom = true;
         Vector3 pos, scl, top, bot, lft, rgt;
         pos = col.gameObject.transform.position;
