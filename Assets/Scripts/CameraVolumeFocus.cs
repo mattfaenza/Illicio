@@ -12,33 +12,29 @@ using System.Collections;
 public class CameraVolumeFocus : MonoBehaviour {
     public float speed = 10.0f;
     public GameObject MainCamera;
-    private Vector3 destination;
-    private bool newRoom;
     public GameObject playerChar;
+    public GameObject[] Volumes;
+    private bool newRoom;
     private GameObject Spawn;
     private bool Dead;
+    private Camera cam;
+    private Vector3 destination;
     private Vector3 playerPos;
     private GameObject currentVolume;
-    public GameObject[] Volumes;
 
-    void Start()
-    {
+    void Start() {
         Dead = false;
+        cam = MainCamera.GetComponent<Camera>();
     }
 
     void Update() {
         MainCamera.transform.position = Vector3.MoveTowards(MainCamera.transform.position, destination, speed);
-        if (newRoom)
-        {
+        if (newRoom) {
             Spawn = GameObject.FindWithTag("Respawn");
             //update spawn position using player's current position
             //playerChar = GameObject.FindWithTag("Player");
-            if (!Dead)
-            {
-                Spawn.transform.position = playerChar.transform.position;
-            }
+            if (!Dead) Spawn.transform.position = playerChar.transform.position;
             //switch light
-
             newRoom = false;
         }
     }
@@ -46,12 +42,12 @@ public class CameraVolumeFocus : MonoBehaviour {
     void isDead() {
         Dead = true;
     }
-
-    void isNotDead()
-    {
+    void isNotDead() {
         Dead = false;
     }
-
+    float horizontalFieldOfView() {
+        return Mathf.Atan(cam.aspect * Mathf.Tan(cam.fieldOfView * Mathf.Deg2Rad / 2.0f));
+    }
     Vector2 intersection2d(Vector2 a_p, Vector2 a_v, Vector2 b_p, Vector2 b_v) {
         float y = (b_p.x - a_p.x + a_v.x * a_p.y / a_v.y - b_v.x * b_p.y / b_v.y) / (a_v.x / a_v.y - b_v.x / b_v.y);
         float x = a_p.x + a_v.x * (y - a_p.y) / a_v.y;
@@ -84,6 +80,7 @@ public class CameraVolumeFocus : MonoBehaviour {
     }
     void OnTriggerEnter(Collider col) {
         if (!col.CompareTag("Volume")) return;
+        
         currentVolume = col.gameObject;
 //        Volumes = currentVolume.GetComponentInParent<GameObject>().GetComponentsInChildren<GameObject>();
 //        foreach(GameObject volume in Volumes)
@@ -93,25 +90,29 @@ public class CameraVolumeFocus : MonoBehaviour {
 	//	currentVolume.GetComponentInChildren<Light>().enabled = true;
 
         newRoom = true;
+
         Vector3 pos, scl, top, bot, lft, rgt;
         pos = col.gameObject.transform.position;
         scl = col.gameObject.transform.lossyScale;
-        // set x comp (+ left MainCameraera)
+        // set x comp (+ left MainCamera)
         top.x = bot.x = pos.x;
         lft.x = pos.x + scl.x / 2;
         rgt.x = pos.x - scl.x / 2;
-        // set y comp (+ up MainCameraera)
+        // set y comp (+ up MainCamera)
         bot.y = pos.y - scl.y / 2;
         top.y = lft.y = rgt.y = pos.y + scl.y / 2;
-        // set z comp (+ into MainCameraera)
+        // set z comp (+ into MainCamera)
         top.z = pos.z - scl.z / 2;
         bot.z = lft.z = rgt.z = pos.z + scl.z / 2;
 
+        float v_fov = cam.fieldOfView;
+        float angle_from_hor = MainCamera.transform.rotation.eulerAngles.x;
+        float top_angle = angle_from_hor - v_fov / 2;
+        float bot_angle = angle_from_hor + v_fov / 2;
+
         Vector2 temp_v = intersection2d(
-            new Vector2(  top.y, top.z),
-            new Vector2(0.2679f,  1.0f),
-            new Vector2(  bot.y, bot.z),
-            new Vector2(   1.0f,  1.0f));
+            new Vector2( top.y, top.z), new Vector2(Mathf.Tan(top_angle * Mathf.Deg2Rad), 1.0f),
+            new Vector2( bot.y, bot.z), new Vector2(Mathf.Tan(bot_angle * Mathf.Deg2Rad), 1.0f));
         destination = new Vector3(top.x, temp_v.x, temp_v.y);
     }
 }
