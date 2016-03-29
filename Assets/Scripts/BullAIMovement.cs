@@ -27,21 +27,17 @@ public class BullAIMovement : MonoBehaviour {
         cap_col = cautionTrigger.GetComponent<CapsuleCollider>();
     }
     void Update() {
-        //float temp;
-        //	temp = Vector3.Distance (movement [movementIndex].transform.position, transform.position);
-        //Debug.Log (temp);
         /* check if enemy is still moving in waypoint, if they get too close to the destination, pick the next point*/
         if (Vector3.Distance(movement[movementIndex].transform.position, transform.position) < 2f && moveInPath) {
             if (movementIndex++ == movement.Length - 1) movementIndex = 0;
             movementHandler(); // move the enemy
         }
-        // If player detected & Charging the player is disabled
         if (followPlayer && !moveInPath) {
             exclamation.SetActive(true); // player detected
             if (chargeDisabled) {
                 nav.speed = 5; // increase Navigation speed
-                nav.SetDestination(player.position); // the navigation destination is the player
-                                                     // if the player outruns the enemy, stop following
+                nav.SetDestination(player.position);
+                // if the player outruns the enemy, stop following
                 if (Vector3.Distance(transform.position, player.transform.position) > 20f) {
                     movementHandler();
                     exclamation.SetActive(false);
@@ -49,12 +45,9 @@ public class BullAIMovement : MonoBehaviour {
                     followPlayer = false;
                 }
             } else {
-                // If player detected & Charging the player is enabled
                 attackPlayer(); // Charge the player
                 followPlayer = false; // disable following player to not over power the enemy
-            }
-        }
-    }
+    }   }   }
     Vector3 toOther; // Player's position
     public void attackPlayer() {
         toOther = player.transform.position - transform.position; // compare it with player's position
@@ -76,32 +69,29 @@ public class BullAIMovement : MonoBehaviour {
         nav.SetDestination(movement[movementIndex].transform.position);
         // set all way point targets as black
         //        foreach (GameObject cylinder in movement)
-        //        {
         //            cylinder.GetComponent<ChangeColor>().ObjectColor = Color.black;
-        //        }
-        //change the current way point target to blue
         // movement[movementIndex].GetComponent<ChangeColor>().ObjectColor = Color.blue;
     }
     void OnCollisionEnter(Collision col) {
         if (!followPlayer && !chargeDisabled && !moveInPath) {
-            moveInPath = true;
-            StopAllCoroutines();
-            hitSFX.Play();
             if (col.gameObject.tag == "Player") {
+                moveInPath = true;
+                StopAllCoroutines();
+                hitSFX.Play();
                 movementHandler();
             } else if (col.gameObject.tag != "Environment") {
+                moveInPath = true;
+                StopAllCoroutines();
+                hitSFX.Play();
                 nav.Stop();
                 if (cap_col) cap_col.enabled = false;
                 confusedStars.SetActive(true);
                 StartCoroutine("confused");
-            }
-        }
-    }
+    }   }   }
     IEnumerator confused() {
         yield return new WaitForSeconds(4);
         confusedStars.SetActive(false);
         if (cap_col) cap_col.enabled = true;
         nav.Resume();
         movementHandler();
-    }
-}
+}   }
