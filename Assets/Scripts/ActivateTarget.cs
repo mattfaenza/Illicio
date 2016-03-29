@@ -23,8 +23,8 @@ public class ActivateTarget : MonoBehaviour {
     {
         if (col.gameObject.tag == "Player")
         {
-            target1ToActivate.SendMessage("Activate");
-            target2ToActivate.SendMessage("Activate");
+  //          target1ToActivate.SendMessage("Activate");
+//            target2ToActivate.SendMessage("Activate");
             target3ToActivate.SendMessage("Activate");
             target4ToActivate.SendMessage("Activate");
             target5ToActivate.SendMessage("boostAllowed");

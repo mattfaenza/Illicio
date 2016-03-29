@@ -43,7 +43,11 @@ namespace ScrapyardChar
             if (Input.GetButton("Draw")) h = v = 0.0f;
             //b = Input.GetKey("joystick 1 button 14");
 
-            //if (Input.GetKey ("joystick 1 button 14")) {
+			if (Input.GetKey ("joystick 1 button 8")) {
+				isBoosting = true;
+			} else {
+				isBoosting = false;
+			}
             isBoosting = Input.GetButton("Boost");
             //GetComponent an axis for boost
             isMoving = h != 0 || v != 0;
@@ -96,7 +100,7 @@ namespace ScrapyardChar
         public void OnTriggerEnter(Collider col)
         {
             //if (col.gameObject.CompareTag("Enemy") || col.gameObject.CompareTag("Hazard"))
-            if (col.gameObject.CompareTag("Hazard"))
+			if (col.gameObject.CompareTag("Hazard") || col.gameObject.CompareTag("Enemy"))
             {
                 target.SendMessage("isDead");
                 playerPos = gameObject.transform.position;
