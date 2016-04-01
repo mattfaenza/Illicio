@@ -3,95 +3,99 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class BullAIMovement : MonoBehaviour {
-    Transform player; // Reference to the player's position.
-    public GameObject[] movement; // Reference to general Enemy Movement waypoint
-    NavMeshAgent nav; // Reference to the nav mesh agent.
-    public bool followPlayer = false; // is the enemy following player?!
-    public GameObject cautionTrigger; // caution trigger cylinder
-    int movementIndex; // to check which waypoint enemy is on
+    public GameObject[] movement;
     public bool chargeDisabled = false; //  enemy is set on charging Mode
-    public bool moveInPath = true; // enemy moves in the set waypoint
-    //Extra Elements
-    public GameObject confusedStars; // when the enemy hits itself into a wall stars will show up
-    public GameObject exclamation;  // When the enemy spots the player, this will show up
-    public Text playerFollowText;
+    public GameObject confusedStars;
+    public GameObject exclamation;
+
+    private NavMeshAgent nav; // Reference to the nav mesh agent.
+    private int movementIndex = 0; // to check which waypoint enemy is on
     private AudioSource hitSFX;
-    private CapsuleCollider cap_col;
+    private Vector3 toOther; // Player's position
+    private enum BullState { IDLE, CHARGE, STUNNED, FOLLOW };
+    private BullState state = BullState.IDLE;
+    private float stunStart;
+    private GameObject target;
 
     void Start() {
-        player = GameObject.FindGameObjectWithTag("Player").transform; // Find Player
-        movementIndex = 0; // start at waypoint 0
-        nav = GetComponent<NavMeshAgent>(); // Navmesh agent 
-        movementHandler(); // Start moving in the way point 
         hitSFX = GetComponent<AudioSource>();
-        cap_col = cautionTrigger.GetComponent<CapsuleCollider>();
+        nav = GetComponent<NavMeshAgent>(); // Navmesh agent 
+        UpdateIdle();
     }
     void Update() {
-        /* check if enemy is still moving in waypoint, if they get too close to the destination, pick the next point*/
-        if (Vector3.Distance(movement[movementIndex].transform.position, transform.position) < 2f && moveInPath) {
-            if (movementIndex++ == movement.Length - 1) movementIndex = 0;
-            movementHandler(); // move the enemy
+        switch (state) {
+        case BullState.IDLE:
+            Idle();
+            break;
+        case BullState.CHARGE:
+            Charge();
+            break;
+        case BullState.STUNNED:
+            Stunned();
+            break;
+        case BullState.FOLLOW:
+            Follow();
+            break;
         }
-        if (followPlayer && !moveInPath) {
-            exclamation.SetActive(true); // player detected
-            if (chargeDisabled) {
-                nav.speed = 5; // increase Navigation speed
-                nav.SetDestination(player.position);
-                // if the player outruns the enemy, stop following
-                if (Vector3.Distance(transform.position, player.transform.position) > 20f) {
-                    movementHandler();
-                    exclamation.SetActive(false);
-                    moveInPath = true;
-                    followPlayer = false;
-                }
-            } else {
-                attackPlayer(); // Charge the player
-                followPlayer = false; // disable following player to not over power the enemy
-    }   }   }
-    Vector3 toOther; // Player's position
-    public void attackPlayer() {
-        toOther = player.transform.position - transform.position; // compare it with player's position
-        StopAllCoroutines(); // Stop the running coroutines to not have overlapping behaviours
-        StartCoroutine(ChargePlayer()); // charge towards the player
     }
-    IEnumerator ChargePlayer() {
-        // Charge the player when you see them, this will stop once the enemy hits into something
-        do {
-            transform.rotation = Quaternion.LookRotation(toOther);// Look at player
-            transform.Translate(Vector3.forward * 20 * Time.deltaTime); // Move towards the player's position
-            yield return null;
-        } while (moveInPath);
-        StartCoroutine(ChargePlayer());
+    void Charge() {
+        // move in saved direction until a collision
+        transform.rotation = Quaternion.LookRotation(toOther);
+        transform.Translate(Vector3.forward * 20 * Time.deltaTime);
     }
-    void movementHandler() {
-        nav.speed = 3.5f; // enemy movement speed
-        exclamation.SetActive(false); // player hasn't been detected
+    void Stunned() {
+        // wait, then resume idle status
+        if (stunStart + 4.0f < Time.time) {
+            confusedStars.SetActive(false);
+            nav.Resume();
+            UpdateIdle();
+        }
+    }
+    void Idle() {
+        // update nav if dest reached
+        if (Vector3.Distance(movement[movementIndex].transform.position, transform.position) < 2.0f) {
+            if (movementIndex++ == movement.Length - 1) movementIndex = 0;
+            UpdateIdle();
+        }
+    }
+    void Follow() {
+        // use nav to chase until collision, resume idle if target moves out of range
+        nav.speed = 5;
+        nav.SetDestination(target.transform.position);
+        if (Vector3.Distance(transform.position, target.transform.position) > 20f || !target.activeSelf) {
+            UpdateIdle();
+            exclamation.SetActive(false);
+        }
+    }
+    void UpdateIdle() {
+        state = BullState.IDLE;
+        nav.speed = 3.5f;
+        exclamation.SetActive(false);
         nav.SetDestination(movement[movementIndex].transform.position);
-        // set all way point targets as black
-        //        foreach (GameObject cylinder in movement)
-        //            cylinder.GetComponent<ChangeColor>().ObjectColor = Color.black;
-        // movement[movementIndex].GetComponent<ChangeColor>().ObjectColor = Color.blue;
+    }
+    void OnTriggerEnter(Collider col) {
+        if (state == BullState.IDLE) {
+            if (col.tag == "Player" || col.tag == "Hologram") {
+                exclamation.SetActive(true);
+                target = col.gameObject;
+                toOther = target.transform.position - transform.position;
+                state = chargeDisabled ? BullState.FOLLOW : BullState.CHARGE;
+            }
+        }
     }
     void OnCollisionEnter(Collision col) {
-        if (!followPlayer && !chargeDisabled && !moveInPath) {
-            if (col.gameObject.tag == "Player") {
-                moveInPath = true;
-                StopAllCoroutines();
+        if (col.gameObject.tag == "Player") {
+            hitSFX.Play();
+            UpdateIdle();
+        } else if (col.gameObject.tag != "Environment") {
+            if (state == BullState.CHARGE) {
                 hitSFX.Play();
-                movementHandler();
-            } else if (col.gameObject.tag != "Environment") {
-                moveInPath = true;
-                StopAllCoroutines();
-                hitSFX.Play();
+                state = BullState.STUNNED;
+                stunStart = Time.time;
                 nav.Stop();
-                if (cap_col) cap_col.enabled = false;
                 confusedStars.SetActive(true);
-                StartCoroutine("confused");
-    }   }   }
-    IEnumerator confused() {
-        yield return new WaitForSeconds(4);
-        confusedStars.SetActive(false);
-        if (cap_col) cap_col.enabled = true;
-        nav.Resume();
-        movementHandler();
-}   }
+            }
+        }
+    }
+}
+
