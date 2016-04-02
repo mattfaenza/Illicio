@@ -26,19 +26,17 @@ public class CameraVolumeFocus : MonoBehaviour {
         Dead = false;
         cam = MainCamera.GetComponent<Camera>();
     }
-
     void Update() {
         MainCamera.transform.position = Vector3.MoveTowards(MainCamera.transform.position, destination, speed);
-        if (newRoom) {
-            Spawn = GameObject.FindWithTag("Respawn");
+        //if (newRoom) {
+            //Spawn = GameObject.FindWithTag("Respawn");
             //update spawn position using player's current position
             //playerChar = GameObject.FindWithTag("Player");
-            if (!Dead) Spawn.transform.position = playerChar.transform.position;
+            //if (!Dead) Spawn.transform.position = playerChar.transform.position;
             //switch light
-            newRoom = false;
-        }
+            //newRoom = false;
+        //}
     }
-
     void isDead() {
         Dead = true;
     }
@@ -81,15 +79,13 @@ public class CameraVolumeFocus : MonoBehaviour {
     void OnTriggerEnter(Collider col) {
         if (!col.CompareTag("Volume")) return;
         
-        currentVolume = col.gameObject;
-//        Volumes = currentVolume.GetComponentInParent<GameObject>().GetComponentsInChildren<GameObject>();
-//        foreach(GameObject volume in Volumes)
-//        {
-//            if(currentVolume != volume) { volume.GetComponent<Light>().enabled = false; }
-//        }
-	//	currentVolume.GetComponentInChildren<Light>().enabled = true;
-
-        newRoom = true;
+        //currentVolume = col.gameObject;
+        //Volumes = currentVolume.GetComponentInParent<GameObject>().GetComponentsInChildren<GameObject>();
+        //foreach (GameObject volume in Volumes)
+        //    if (currentVolume != volume)
+        //        volume.GetComponent<Light>().enabled = false;
+	    //currentVolume.GetComponentInChildren<Light>().enabled = true;
+        //newRoom = true;
 
         Vector3 pos, scl, top, bot, lft, rgt;
         pos = col.gameObject.transform.position;

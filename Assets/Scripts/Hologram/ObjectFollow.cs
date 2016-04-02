@@ -14,11 +14,13 @@ public class ObjectFollow : MonoBehaviour
     private DrawMarker dm;
     private int wayCur, wayNum, isRunning;
     private Renderer[] renderers;
+    private BoxCollider box_col;
 
     void Start() {
         dm = markerPoints.GetComponent<DrawMarker>();
         isRunning = Animator.StringToHash("Running");
         renderers = GetComponentsInChildren<Renderer>();
+        box_col = GetComponent<BoxCollider>();
     }
     public void FollowPrime() {
         transform.position = Vector3.one * 1000.0f;
@@ -37,6 +39,7 @@ public class ObjectFollow : MonoBehaviour
         transform.rotation = Quaternion.LookRotation(destination - transform.position);
         holoAnim.SetBool(isRunning, true);
         foreach (Renderer rend in renderers) rend.enabled = true;
+        box_col.enabled = true;
         state = FollowStates.RUNNING;
     }
     void FollowNext() {
@@ -59,6 +62,7 @@ public class ObjectFollow : MonoBehaviour
         holoAnim.SetBool(isRunning, false);
         gameObject.SetActive(false);
         foreach (Renderer rend in renderers) rend.enabled = false;
+        box_col.enabled = false;
     }
     void Update() {
         if (state == FollowStates.READY)   FollowStart();

@@ -96,11 +96,23 @@ namespace ScrapyardChar
             }
         }
 
-
+        void OnCollisionEnter(Collision col) {
+            if (col.gameObject.CompareTag("Enemy")) {
+                target.SendMessage("isDead");
+                playerPos = gameObject.transform.position;
+                markTime = Time.time;
+                GameObject clone;
+                clone = (GameObject)Instantiate(deadChar, playerPos, gameObject.transform.rotation);
+                animDead = clone.GetComponent<Animator>(); // Get the Animator
+                animDead.Play("Dead");
+                gameObject.transform.position = SpawnPoint.transform.position;
+                target.SendMessage("isNotDead");
+            }
+        }
         public void OnTriggerEnter(Collider col)
         {
             //if (col.gameObject.CompareTag("Enemy") || col.gameObject.CompareTag("Hazard"))
-			if (col.gameObject.CompareTag("Hazard") || col.gameObject.CompareTag("Enemy"))
+			if (col.gameObject.CompareTag("Hazard"))
             {
                 target.SendMessage("isDead");
                 playerPos = gameObject.transform.position;
