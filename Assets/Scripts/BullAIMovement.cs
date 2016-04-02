@@ -87,6 +87,7 @@ public class BullAIMovement : MonoBehaviour {
         if (col.gameObject.tag == "Player") {
             hitSFX.Play();
             UpdateIdle();
+        } else if (col.gameObject.tag == "Hologram" || col.gameObject.tag == "Marker") {
         } else if (col.gameObject.tag != "Environment") {
             if (state == BullState.CHARGE) {
                 hitSFX.Play();

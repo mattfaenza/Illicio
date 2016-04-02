@@ -25,15 +25,17 @@ public class DrawMarker : MonoBehaviour {
     private int wpNum;
     private float lastT = 0.0f;
     private float deltaT = 0.0f;
+    private BoxCollider box_col;
 
     // Use this for initialization
     void Start () {
         follower.SetActive(false);
         marker  = GameObject.FindGameObjectWithTag("Marker");
-        lineRender = gameObject.GetComponent<LineRenderer>();
+        lineRender = GetComponent<LineRenderer>();
 		lineRender.material = new Material(Shader.Find("Particles/Additive")); // Change material for line renderer
 		lineRender.SetColors(c1, c2); //Set the assigned colors
         lastT = Time.realtimeSinceStartup;
+        box_col = GetComponent<BoxCollider>();
 	}
     void CalculateDeltaT() {
         deltaT = Time.realtimeSinceStartup - lastT;
@@ -57,6 +59,7 @@ public class DrawMarker : MonoBehaviour {
         wpNum = 0;
         timeMark = Time.realtimeSinceStartup;
         state = DrawStates.DRAW;
+        box_col.enabled = true;
         //canvas.SetActive(true);
     }
     void DrawMain()
@@ -76,6 +79,7 @@ public class DrawMarker : MonoBehaviour {
         marker.GetComponent<Renderer>().enabled = false;
         follower.GetComponent<ObjectFollow>().FollowPrime();
         state = DrawStates.FOLLOW;
+        box_col.enabled = false;
         //canvas.SetActive(false);
     }
     public void DrawReset()
