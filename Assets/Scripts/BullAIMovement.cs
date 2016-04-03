@@ -7,6 +7,7 @@ public class BullAIMovement : MonoBehaviour {
     public bool chargeDisabled = false; //  enemy is set on charging Mode
     public GameObject confusedStars;
     public GameObject exclamation;
+    public float range = 10.0f;
 
     private NavMeshAgent nav; // Reference to the nav mesh agent.
     private int movementIndex = 0; // to check which waypoint enemy is on
@@ -17,9 +18,13 @@ public class BullAIMovement : MonoBehaviour {
     private float stunStart;
     private GameObject target;
 
+    private Vector3 home;
+    private Vector3 dest;
+
     void Start() {
         hitSFX = GetComponent<AudioSource>();
         nav = GetComponent<NavMeshAgent>(); // Navmesh agent 
+        home = transform.position;
         UpdateIdle();
     }
     void Update() {
@@ -40,7 +45,7 @@ public class BullAIMovement : MonoBehaviour {
     }
     void Charge() {
         // move in saved direction until a collision
-        transform.rotation = Quaternion.LookRotation(toOther);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(toOther), 360.0f * Time.deltaTime);
         transform.Translate(Vector3.forward * 20 * Time.deltaTime);
     }
     void Stunned() {
@@ -53,10 +58,15 @@ public class BullAIMovement : MonoBehaviour {
     }
     void Idle() {
         // update nav if dest reached
-        if (Vector3.Distance(movement[movementIndex].transform.position, transform.position) < 2.0f) {
+        if (Vector3.Distance(dest, transform.position) < 2.0f) {
             if (movementIndex++ == movement.Length - 1) movementIndex = 0;
+            CookNewDest();
             UpdateIdle();
         }
+    }
+    void CookNewDest() {
+        //dest = movement[movementIndex].transform.position;
+        dest = home + range * new Vector3(Mathf.Sin(Time.realtimeSinceStartup), 0.0f, Mathf.Cos(Time.realtimeSinceStartup));
     }
     void Follow() {
         // use nav to chase until collision, resume idle if target moves out of range
@@ -71,16 +81,23 @@ public class BullAIMovement : MonoBehaviour {
         state = BullState.IDLE;
         nav.speed = 3.5f;
         exclamation.SetActive(false);
-        nav.SetDestination(movement[movementIndex].transform.position);
+        nav.SetDestination(dest);
     }
     void OnTriggerEnter(Collider col) {
         if (state == BullState.IDLE) {
             if (col.tag == "Player" || col.tag == "Hologram") {
                 exclamation.SetActive(true);
                 target = col.gameObject;
+                home = target.transform.position;
                 toOther = target.transform.position - transform.position;
                 state = chargeDisabled ? BullState.FOLLOW : BullState.CHARGE;
             }
+        }
+    }
+    void OnTriggerStay(Collider col) {
+        if (col.tag == "Wall") {
+            CookNewDest();
+            nav.SetDestination(dest);
         }
     }
     void OnCollisionEnter(Collision col) {
@@ -88,7 +105,7 @@ public class BullAIMovement : MonoBehaviour {
             hitSFX.Play();
             UpdateIdle();
         } else if (col.gameObject.tag == "Hologram" || col.gameObject.tag == "Marker") {
-        } else if (col.gameObject.tag != "Environment") {
+        } else {
             if (state == BullState.CHARGE) {
                 hitSFX.Play();
                 state = BullState.STUNNED;

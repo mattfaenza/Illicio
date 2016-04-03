@@ -12,7 +12,6 @@ using System.Collections;
 public class CameraVolumeFocus : MonoBehaviour {
     public float speed = 10.0f;
     public GameObject MainCamera;
-    public GameObject playerChar;
     public GameObject[] Volumes;
     private bool newRoom;
     private GameObject Spawn;
@@ -44,7 +43,7 @@ public class CameraVolumeFocus : MonoBehaviour {
         Dead = false;
     }
     float horizontalFieldOfView() {
-        return Mathf.Atan(cam.aspect * Mathf.Tan(cam.fieldOfView * Mathf.Deg2Rad / 2.0f));
+        return Mathf.Atan(cam.aspect * Mathf.Tan(cam.fieldOfView * Mathf.Deg2Rad)) * Mathf.Rad2Deg;
     }
     Vector2 intersection2d(Vector2 a_p, Vector2 a_v, Vector2 b_p, Vector2 b_v) {
         float y = (b_p.x - a_p.x + a_v.x * a_p.y / a_v.y - b_v.x * b_p.y / b_v.y) / (a_v.x / a_v.y - b_v.x / b_v.y);
@@ -77,9 +76,10 @@ public class CameraVolumeFocus : MonoBehaviour {
         return Vector3.zero;
     }
     void OnTriggerEnter(Collider col) {
+        Debug.Log(horizontalFieldOfView());
         if (!col.CompareTag("Volume")) return;
         
-        //currentVolume = col.gameObject;
+        currentVolume = col.gameObject;
         //Volumes = currentVolume.GetComponentInParent<GameObject>().GetComponentsInChildren<GameObject>();
         //foreach (GameObject volume in Volumes)
         //    if (currentVolume != volume)
@@ -105,6 +105,7 @@ public class CameraVolumeFocus : MonoBehaviour {
         float angle_from_hor = MainCamera.transform.rotation.eulerAngles.x;
         float top_angle = angle_from_hor - v_fov / 2;
         float bot_angle = angle_from_hor + v_fov / 2;
+        Vector3 camera_pos_vec = new Vector3(0.0f, Mathf.Tan(angle_from_hor * Mathf.Deg2Rad), 1.0f);
 
         Vector2 temp_v = intersection2d(
             new Vector2( top.y, top.z), new Vector2(Mathf.Tan(top_angle * Mathf.Deg2Rad), 1.0f),

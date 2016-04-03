@@ -43,11 +43,6 @@ namespace ScrapyardChar
             if (Input.GetButton("Draw")) h = v = 0.0f;
             //b = Input.GetKey("joystick 1 button 14");
 
-			if (Input.GetKey ("joystick 1 button 8")) {
-				isBoosting = true;
-			} else {
-				isBoosting = false;
-			}
             isBoosting = Input.GetButton("Boost");
             //GetComponent an axis for boost
             isMoving = h != 0 || v != 0;
@@ -56,7 +51,6 @@ namespace ScrapyardChar
         void FixedUpdate()
         {
             MovementManagement(h, v); // Handles the direction its facing and moving
-
         }
 
         void boostAllowed()
