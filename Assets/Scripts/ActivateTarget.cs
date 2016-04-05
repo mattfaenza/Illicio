@@ -9,16 +9,6 @@ public class ActivateTarget : MonoBehaviour {
     public GameObject target4ToActivate;
     public GameObject target5ToActivate;
 
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public void OnTriggerEnter(Collider col)
     {
         if (col.gameObject.tag == "Player")
