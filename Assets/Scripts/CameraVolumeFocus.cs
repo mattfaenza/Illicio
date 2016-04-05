@@ -8,39 +8,37 @@
 
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class CameraVolumeFocus : MonoBehaviour {
     public float speed = 10.0f;
     public GameObject MainCamera;
-    public GameObject[] Volumes;
-    private bool newRoom;
+
     private GameObject Spawn;
-    private bool Dead;
     private Camera cam;
     private Vector3 destination;
-    private Vector3 playerPos;
-    private GameObject currentVolume;
+    private List<GameObject> currentVolumes;
+
+    private bool refPointsNull = true;
+    private Vector3 top, bot, lft, rgt;
+
+    private float v_fov;
+    private float angle_from_hor;
+    private float top_angle;
+    private float bot_angle;
 
     void Start() {
-        Dead = false;
         cam = MainCamera.GetComponent<Camera>();
+        currentVolumes = new List<GameObject>();
+        Spawn = GameObject.FindWithTag("Respawn");
+
+        v_fov = cam.fieldOfView;
+        angle_from_hor = MainCamera.transform.rotation.eulerAngles.x;
+        top_angle = angle_from_hor - v_fov / 2;
+        bot_angle = angle_from_hor + v_fov / 2;
     }
     void Update() {
         MainCamera.transform.position = Vector3.MoveTowards(MainCamera.transform.position, destination, speed);
-        //if (newRoom) {
-            //Spawn = GameObject.FindWithTag("Respawn");
-            //update spawn position using player's current position
-            //playerChar = GameObject.FindWithTag("Player");
-            //if (!Dead) Spawn.transform.position = playerChar.transform.position;
-            //switch light
-            //newRoom = false;
-        //}
-    }
-    void isDead() {
-        Dead = true;
-    }
-    void isNotDead() {
-        Dead = false;
     }
     float horizontalFieldOfView() {
         return Mathf.Atan(cam.aspect * Mathf.Tan(cam.fieldOfView * Mathf.Deg2Rad)) * Mathf.Rad2Deg;
@@ -75,41 +73,54 @@ public class CameraVolumeFocus : MonoBehaviour {
         }
         return Vector3.zero;
     }
-    void OnTriggerEnter(Collider col) {
-        Debug.Log(horizontalFieldOfView());
-        if (!col.CompareTag("Volume")) return;
-        
-        currentVolume = col.gameObject;
-        //Volumes = currentVolume.GetComponentInParent<GameObject>().GetComponentsInChildren<GameObject>();
-        //foreach (GameObject volume in Volumes)
-        //    if (currentVolume != volume)
-        //        volume.GetComponent<Light>().enabled = false;
-	    //currentVolume.GetComponentInChildren<Light>().enabled = true;
-        //newRoom = true;
-
-        Vector3 pos, scl, top, bot, lft, rgt;
-        pos = col.gameObject.transform.position;
-        scl = col.gameObject.transform.lossyScale;
+    void BakeRefPoints(GameObject vol) {
+        Vector3 t_top, t_bot, t_lft, t_rgt;
+        Vector3 pos = vol.transform.position;
+        Vector3 scl = vol.transform.lossyScale;
         // set x comp (+ left MainCamera)
-        top.x = bot.x = pos.x;
-        lft.x = pos.x + scl.x / 2;
-        rgt.x = pos.x - scl.x / 2;
+        t_top.x = t_bot.x = pos.x;
+        t_lft.x = pos.x + scl.x / 2;
+        t_rgt.x = pos.x - scl.x / 2;
         // set y comp (+ up MainCamera)
-        bot.y = pos.y - scl.y / 2;
-        top.y = lft.y = rgt.y = pos.y + scl.y / 2;
+        t_bot.y = pos.y - scl.y / 2;
+        t_top.y = t_lft.y = t_rgt.y = pos.y + scl.y / 2;
         // set z comp (+ into MainCamera)
-        top.z = pos.z - scl.z / 2;
-        bot.z = lft.z = rgt.z = pos.z + scl.z / 2;
+        t_top.z = pos.z - scl.z / 2;
+        t_bot.z = t_lft.z = t_rgt.z = pos.z + scl.z / 2;
 
-        float v_fov = cam.fieldOfView;
-        float angle_from_hor = MainCamera.transform.rotation.eulerAngles.x;
-        float top_angle = angle_from_hor - v_fov / 2;
-        float bot_angle = angle_from_hor + v_fov / 2;
-        Vector3 camera_pos_vec = new Vector3(0.0f, Mathf.Tan(angle_from_hor * Mathf.Deg2Rad), 1.0f);
-
+        if (refPointsNull) {
+            top = t_top;
+            bot = t_bot;
+            lft = t_lft;
+            rgt = t_rgt;
+            refPointsNull = false;
+            return;
+        }
+        if (t_top.z < top.z) top = t_top;
+        if (bot.z < t_bot.z) bot = t_bot;
+        if (lft.x < t_lft.x) lft = t_lft;
+        if (t_rgt.x < rgt.x) rgt = t_rgt;
+    }
+    void BakeCameraDestination() {
+        //Vector3 camera_pos_vec = new Vector3(0.0f, Mathf.Tan(angle_from_hor * Mathf.Deg2Rad), 1.0f);
         Vector2 temp_v = intersection2d(
-            new Vector2( top.y, top.z), new Vector2(Mathf.Tan(top_angle * Mathf.Deg2Rad), 1.0f),
-            new Vector2( bot.y, bot.z), new Vector2(Mathf.Tan(bot_angle * Mathf.Deg2Rad), 1.0f));
+            new Vector2(top.y, top.z), new Vector2(Mathf.Tan(top_angle * Mathf.Deg2Rad), 1.0f),
+            new Vector2(bot.y, bot.z), new Vector2(Mathf.Tan(bot_angle * Mathf.Deg2Rad), 1.0f));
         destination = new Vector3(top.x, temp_v.x, temp_v.y);
+    }
+    void OnTriggerEnter(Collider col) {
+        col.gameObject.GetComponent<Light>().enabled = true;
+        if (!col.CompareTag("Volume")) return;
+        currentVolumes.Add(col.gameObject);
+        BakeRefPoints(col.gameObject);
+        BakeCameraDestination();
+        Spawn.transform.position = transform.position;
+    }
+    void OnTriggerExit(Collider col) {
+        col.gameObject.GetComponent<Light>().enabled = false;
+        currentVolumes.Remove(col.gameObject);
+        refPointsNull = true;
+        foreach (GameObject vol in currentVolumes) BakeRefPoints(vol);
+        BakeCameraDestination();
     }
 }
