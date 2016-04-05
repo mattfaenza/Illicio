@@ -107,15 +107,15 @@ public class CameraVolumeFocus : MonoBehaviour {
             new Vector2(top.y, top.z), new Vector2(Mathf.Tan(top_angle * Mathf.Deg2Rad), 1.0f),
             new Vector2(bot.y, bot.z), new Vector2(Mathf.Tan(bot_angle * Mathf.Deg2Rad), 1.0f));
         destination = new Vector3(top.x, temp_v.x, temp_v.y);
+        Spawn.transform.position = transform.position;
     }
     void OnTriggerEnter(Collider col) {
         if (!col.CompareTag("Volume")) return;
-        //error here about the light no being accessible
+        //error here about the light not being accessible
         //col.gameObject.GetComponent<Light>().enabled = true;
         currentVolumes.Add(col.gameObject);
         BakeRefPoints(col.gameObject);
         BakeCameraDestination();
-        Spawn.transform.position = transform.position;
     }
     void OnTriggerExit(Collider col) {
         if (!col.CompareTag("Volume")) return;

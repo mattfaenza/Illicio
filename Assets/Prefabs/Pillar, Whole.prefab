@@ -115,7 +115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72496dd861796ec47acd78ee956a7dba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ThisButShattered: {fileID: 110216, guid: ad2f0cecb824074469ee636ae093079d, type: 2}
+  ThisButShattered: {fileID: 154696, guid: ad2f0cecb824074469ee636ae093079d, type: 2}
   shatterLifeTime: 4
 --- !u!1001 &100100000
 Prefab:
