@@ -116,8 +116,8 @@ public class CameraVolumeFocus : MonoBehaviour {
     void OnTriggerEnter(Collider col) {
         if (!col.CompareTag("Volume")) return;
 
-        Light light = col.gameObject.GetComponent<Light>();
-        if (light != null) light.enabled = true;
+        Light[] Lights = col.gameObject.GetComponentsInChildren<Light>();
+        foreach (Light light in Lights) light.enabled = true;
 
         currentVolumes.Add(col.gameObject);
         BakeRefPoints(col.gameObject);
@@ -126,8 +126,8 @@ public class CameraVolumeFocus : MonoBehaviour {
     void OnTriggerExit(Collider col) {
         if (!col.CompareTag("Volume")) return;
 
-        Light light = col.gameObject.GetComponent<Light>();
-        if (light != null) light.enabled = false;
+        Light[] Lights = col.gameObject.GetComponentsInChildren<Light>();
+        foreach (Light light in Lights) light.enabled = false;
 
         currentVolumes.Remove(col.gameObject);
         refPointsNull = true;
