@@ -199,8 +199,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c887991bf966e47488c43feb830e1da8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
-  moveTime: 2
   fadeAmount: 0.6
   fadePerSecond: 0.2
   newMaterial: {fileID: 2100000, guid: 4ebdc0b7442a84a498b6f9a945aaa6f0, type: 2}
@@ -217,7 +215,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mats: []
   newMaterial: {fileID: 2100000, guid: 48931894883e6492c9e8b2449bd1c79c, type: 2}
-  rend: {fileID: 2319090}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
