@@ -12,6 +12,8 @@ TagManager:
   - Spikes
   - Enemy
   - Wall
+  - Pillar
+  - Debris
   layers:
   - Default
   - TransparentFX
