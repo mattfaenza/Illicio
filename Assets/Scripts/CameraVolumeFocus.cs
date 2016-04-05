@@ -102,24 +102,33 @@ public class CameraVolumeFocus : MonoBehaviour {
         if (t_rgt.x < rgt.x) rgt = t_rgt;
     }
     void BakeCameraDestination() {
+        Spawn.transform.position = transform.position;
         //Vector3 camera_pos_vec = new Vector3(0.0f, Mathf.Tan(angle_from_hor * Mathf.Deg2Rad), 1.0f);
         Vector2 temp_v = intersection2d(
             new Vector2(top.y, top.z), new Vector2(Mathf.Tan(top_angle * Mathf.Deg2Rad), 1.0f),
             new Vector2(bot.y, bot.z), new Vector2(Mathf.Tan(bot_angle * Mathf.Deg2Rad), 1.0f));
         destination = new Vector3(top.x, temp_v.x, temp_v.y);
+        float height = Mathf.Abs(lft.x - rgt.x) / (2 * cam.aspect * Mathf.Tan(cam.fieldOfView * Mathf.Deg2Rad));
+        height -= destination.y;
+        if (height < 0) return;
+        destination += height * new Vector3(0.0f, 1.0f, 1.0f / Mathf.Tan(angle_from_hor * Mathf.Deg2Rad));
     }
     void OnTriggerEnter(Collider col) {
         if (!col.CompareTag("Volume")) return;
-        //error here about the light no being accessible
-        //col.gameObject.GetComponent<Light>().enabled = true;
+
+        Light light = col.gameObject.GetComponent<Light>();
+        if (light != null) light.enabled = true;
+
         currentVolumes.Add(col.gameObject);
         BakeRefPoints(col.gameObject);
         BakeCameraDestination();
-        Spawn.transform.position = transform.position;
     }
     void OnTriggerExit(Collider col) {
         if (!col.CompareTag("Volume")) return;
-        //col.gameObject.GetComponent<Light>().enabled = false;
+
+        Light light = col.gameObject.GetComponent<Light>();
+        if (light != null) light.enabled = false;
+
         currentVolumes.Remove(col.gameObject);
         refPointsNull = true;
         foreach (GameObject vol in currentVolumes) BakeRefPoints(vol);
