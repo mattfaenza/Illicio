@@ -30,12 +30,12 @@ public class BullAIMovement : MonoBehaviour {
         nav = GetComponent<NavMeshAgent>(); // Navmesh agent 
         home = transform.position;
         UpdateIdle();
-        jumpForce = 100;
+        jumpForce = 500;
         mainCam = Camera.main;
         //spikes = GameObject.FindGameObjectWithTag("SpikeFloor");
         rb = GetComponent<Rigidbody>();
         isGrounded = true;
-        bossHealth = 4;
+        bossHealth = 1;
     }
     void Update() {
         switch (state) {
@@ -69,7 +69,7 @@ public class BullAIMovement : MonoBehaviour {
         // wait, then resume idle status
         if (stunStart + 4.0f < Time.time) {
             confusedStars.SetActive(false);
-            if (isBoss) { state = BullState.JUMP;   }
+            if (isBoss) { state = BullState.JUMP; }
             else {
                 nav.Resume();
                 UpdateIdle();
@@ -83,7 +83,7 @@ public class BullAIMovement : MonoBehaviour {
         if (isGrounded) {
             //play jump animation here
             nav.enabled = false;
-            rb.AddForce(Vector3.forward * jumpForce, ForceMode.Acceleration);
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Acceleration);
             isGrounded = false;
         }
     }
@@ -100,7 +100,6 @@ public class BullAIMovement : MonoBehaviour {
         {
             if(bossHealth > 0)
             {
-                bossHealth--;
                 hitSFX.Play();
                 state = BullState.STUNNED;
                 stunStart = Time.time;
@@ -168,7 +167,8 @@ public class BullAIMovement : MonoBehaviour {
             || col.gameObject.tag == "Debris") {
         } else if (col.gameObject.tag == "Pillar") {
             state = BullState.DYING;
-            if (isBoss)
+            bossHealth--;
+            if (isBoss && bossHealth > 0)
             {
                 //don't think we need anything here, just takes damage?
             } else {
