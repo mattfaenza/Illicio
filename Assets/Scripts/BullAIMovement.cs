@@ -7,22 +7,32 @@ public class BullAIMovement : MonoBehaviour {
     public GameObject confusedStars;
     public GameObject exclamation;
     public float range = 10.0f;
+    public bool isBoss;
 
     private NavMeshAgent nav; // Reference to the nav mesh agent.
     private AudioSource hitSFX;
     private Vector3 toOther; // Player's position
-    private enum BullState { IDLE, CHARGE, STUNNED, FOLLOW, DYING };
+    private enum BullState { IDLE, CHARGE, STUNNED, JUMP, FOLLOW, DYING };
     private BullState state = BullState.IDLE;
     private float stunStart;
     private GameObject target;
     private Vector3 home;
     private Vector3 dest;
+    private Rigidbody rb;
+    private bool isGrounded;
+    private float jumpForce;
+    private Camera mainCam;
+    private GameObject spikes;
 
     void Start() {
         hitSFX = GetComponent<AudioSource>();
         nav = GetComponent<NavMeshAgent>(); // Navmesh agent 
         home = transform.position;
         UpdateIdle();
+        jumpForce = 100f;
+        mainCam = Camera.main;
+        spikes = GameObject.FindGameObjectWithTag("SpikeFloor");
+        rb = GetComponent<Rigidbody>();
     }
     void Update() {
         switch (state) {
@@ -34,6 +44,9 @@ public class BullAIMovement : MonoBehaviour {
             break;
         case BullState.STUNNED:
             Stunned();
+            break;
+        case BullState.JUMP:
+            Jump();
             break;
         case BullState.FOLLOW:
             Follow();
@@ -53,9 +66,19 @@ public class BullAIMovement : MonoBehaviour {
         if (stunStart + 4.0f < Time.time) {
             confusedStars.SetActive(false);
             nav.Resume();
-            UpdateIdle();
+            if (isBoss) { state = BullState.JUMP; }
+            else { UpdateIdle(); }
+
         }
     }
+
+    void Jump()
+    {
+        //play jump animation here
+        if (isGrounded) { rb.velocity += Vector3.up * jumpForce; }
+        isGrounded = false;
+    }
+
     void Idle() {
         // update nav if dest reached
         if (Vector3.Distance(dest, transform.position) < 2.0f) {
@@ -106,7 +129,12 @@ public class BullAIMovement : MonoBehaviour {
     }
     void OnCollisionEnter(Collision col) {
         if (state == BullState.DYING) return;
-        if (col.gameObject.tag == "Player") {
+        if (col.gameObject.CompareTag("Floor"))
+        {
+            spikes.SendMessage("ShootSpikes");
+            mainCam.SendMessage("CameraShake");
+        }
+            if (col.gameObject.tag == "Player") {
             hitSFX.Play();
             UpdateIdle();
         } else if (col.gameObject.tag == "Hologram" 
@@ -126,6 +154,10 @@ public class BullAIMovement : MonoBehaviour {
                 confusedStars.SetActive(true);
             }
         }
+    }
+
+    void OnCollisionStay(Collision col) {
+        if(col.gameObject.CompareTag("Floor")) isGrounded = true;
     }
 }
 

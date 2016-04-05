@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 1
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!1 &124646
 GameObject:
@@ -28,12 +28,13 @@ GameObject:
   - 23: {fileID: 2372510}
   - 65: {fileID: 6554170}
   - 114: {fileID: 11428018}
+  - 95: {fileID: 9589794}
   m_Layer: 9
   m_Name: Wall Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 1
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!1 &147326
 GameObject:
@@ -51,7 +52,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 1
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &421456
 Transform:
@@ -170,7 +171,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.02, y: 0.019999998, z: 0.018357014}
-  m_Center: {x: 0.0005090757, y: -0.000000030436844, z: 0.009177125}
+  m_Center: {x: 0.02, y: -0.000000030436844, z: 0.009177125}
 --- !u!95 &9527282
 Animator:
   serializedVersion: 3
@@ -178,8 +179,25 @@ Animator:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 105698}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 9000000, guid: 5353f150d39c64be8896b671b1264d44, type: 3}
+  m_Controller: {fileID: 9100000, guid: 6fb7d7b6819304a519b90f860c1925fb, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+--- !u!95 &9589794
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 124646}
+  m_Enabled: 0
+  m_Avatar: {fileID: 0}
   m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
@@ -201,9 +219,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   moveTime: 2
-  fadeAmount: 0.6
+  fadeAmount: 0
   fadePerSecond: 0.2
   newMaterial: {fileID: 2100000, guid: 4ebdc0b7442a84a498b6f9a945aaa6f0, type: 2}
+  moveDoor: {fileID: 0}
 --- !u!114 &11477470
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -217,7 +236,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mats: []
   newMaterial: {fileID: 2100000, guid: 48931894883e6492c9e8b2449bd1c79c, type: 2}
-  rend: {fileID: 2319090}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

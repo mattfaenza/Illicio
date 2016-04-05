@@ -6,7 +6,6 @@ namespace ScrapyardChar
     public class TPC : MonoBehaviour
     {
         private float h, v, b; // Axis
-        private float markTime; //For Time checks
         private Rigidbody rb;
         private bool isMoving, isBoosting;
         private Animator anim;
@@ -92,15 +91,14 @@ namespace ScrapyardChar
 
         void OnCollisionEnter(Collision col) {
             if (col.gameObject.CompareTag("Enemy")) {
-                target.SendMessage("isDead");
+                //target.SendMessage("isDead");
                 playerPos = gameObject.transform.position;
-                markTime = Time.time;
                 GameObject clone;
                 clone = (GameObject)Instantiate(deadChar, playerPos, gameObject.transform.rotation);
                 animDead = clone.GetComponent<Animator>(); // Get the Animator
                 animDead.Play("Dead");
                 gameObject.transform.position = SpawnPoint.transform.position;
-                target.SendMessage("isNotDead");
+                //target.SendMessage("isNotDead");
             }
         }
         public void OnTriggerEnter(Collider col)
@@ -108,28 +106,26 @@ namespace ScrapyardChar
             //if (col.gameObject.CompareTag("Enemy") || col.gameObject.CompareTag("Hazard"))
 			if (col.gameObject.CompareTag("Hazard"))
             {
-                target.SendMessage("isDead");
+                //target.SendMessage("isDead");
                 playerPos = gameObject.transform.position;
-                markTime = Time.time;
                 GameObject clone;
                 clone = (GameObject)Instantiate(deadChar, playerPos, gameObject.transform.rotation);
                 animDead = clone.GetComponent<Animator>(); // Get the Animator
                 animDead.Play("Dead");
                 gameObject.transform.position = SpawnPoint.transform.position;
-                target.SendMessage("isNotDead");
+                //target.SendMessage("isNotDead");
             } else if (col.gameObject.CompareTag("Spikes"))
             {
                 if(!isBoosting)
                 {
-                    target.SendMessage("isDead");
+                    //target.SendMessage("isDead");
                     playerPos = gameObject.transform.position;
-                    markTime = Time.time;
                     GameObject clone;
                     clone = (GameObject)Instantiate(deadChar, playerPos, gameObject.transform.rotation);
                     animDead = clone.GetComponent<Animator>(); // Get the Animator
                     animDead.Play("Dead");
                     gameObject.transform.position = SpawnPoint.transform.position;
-                    target.SendMessage("isNotDead");
+                    //target.SendMessage("isNotDead");
                 } else
                 {
                     //get rekt
