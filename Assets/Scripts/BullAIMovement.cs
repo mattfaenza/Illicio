@@ -22,21 +22,20 @@ public class BullAIMovement : MonoBehaviour {
     private bool isGrounded;
     private float jumpForce;
     private Camera mainCam;
-    private GameObject spikes;
-    private bool doneJump;
-    private bool jumping;
+    public GameObject spikesModel;
+    private int bossHealth;
 
     void Start() {
         hitSFX = GetComponent<AudioSource>();
         nav = GetComponent<NavMeshAgent>(); // Navmesh agent 
         home = transform.position;
         UpdateIdle();
-        jumpForce = 9999;
+        jumpForce = 100;
         mainCam = Camera.main;
-        spikes = GameObject.FindGameObjectWithTag("SpikeFloor");
+        //spikes = GameObject.FindGameObjectWithTag("SpikeFloor");
         rb = GetComponent<Rigidbody>();
         isGrounded = true;
-        jumping = false;
+        bossHealth = 4;
     }
     void Update() {
         switch (state) {
@@ -50,8 +49,7 @@ public class BullAIMovement : MonoBehaviour {
             Stunned();
             break;
         case BullState.JUMP:
-                //Jump();
-            jumping = true;
+            Jump();
             break;
         case BullState.FOLLOW:
             Follow();
@@ -59,14 +57,6 @@ public class BullAIMovement : MonoBehaviour {
         case BullState.DYING:
             Dying();
             break;
-        }
-    }
-
-    void FixedUpdate()
-    {
-        if(jumping)
-        {
-            Jump();
         }
     }
 
@@ -79,7 +69,7 @@ public class BullAIMovement : MonoBehaviour {
         // wait, then resume idle status
         if (stunStart + 4.0f < Time.time) {
             confusedStars.SetActive(false);
-            if (isBoss) { state = BullState.JUMP; }
+            if (isBoss) { state = BullState.JUMP;   }
             else {
                 nav.Resume();
                 UpdateIdle();
@@ -90,16 +80,11 @@ public class BullAIMovement : MonoBehaviour {
 
     void Jump()
     {
-        //play jump animation here
-        if (doneJump) {
-            doneJump = false;
-            UpdateIdle();
-        }
-        else if (isGrounded) {
+        if (isGrounded) {
+            //play jump animation here
             nav.enabled = false;
             rb.AddForce(Vector3.forward * jumpForce, ForceMode.Acceleration);
             isGrounded = false;
-            jumping = false;
         }
     }
 
@@ -111,6 +96,19 @@ public class BullAIMovement : MonoBehaviour {
         }
     }
     void Dying() {
+        if (isBoss)
+        {
+            if(bossHealth > 0)
+            {
+                bossHealth--;
+                hitSFX.Play();
+                state = BullState.STUNNED;
+                stunStart = Time.time;
+                nav.Stop();
+                confusedStars.SetActive(true);
+                return;
+            }
+        }
         transform.rotation = Quaternion.LookRotation(toOther);
         transform.Translate(Vector3.forward * 40 * Time.deltaTime);
         if (Vector3.Distance(home, transform.position) >= Vector3.Distance(home, dest))
@@ -136,7 +134,7 @@ public class BullAIMovement : MonoBehaviour {
         nav.SetDestination(dest);
     }
     void OnTriggerStay(Collider col) {
-        if (state == BullState.DYING) return;
+        if (state == BullState.DYING || state == BullState.JUMP) return;
         if (state == BullState.IDLE) {
             if (col.tag == "Player" || col.tag == "Hologram") {
                 exclamation.SetActive(true);
@@ -153,7 +151,16 @@ public class BullAIMovement : MonoBehaviour {
     }
     void OnCollisionEnter(Collision col) {
         if (state == BullState.DYING) return;
-            if (col.gameObject.tag == "Player") {
+        if (col.gameObject.CompareTag("Floor") || isGrounded == false)
+        {
+            isGrounded = true;
+            nav.enabled = true;
+            spikesModel.SendMessage("ShootSpikes");
+            mainCam.SendMessage("CameraShake");
+            nav.Resume();
+            UpdateIdle();
+        }
+        if (col.gameObject.tag == "Player") {
             hitSFX.Play();
             UpdateIdle();
         } else if (col.gameObject.tag == "Hologram" 
@@ -161,9 +168,14 @@ public class BullAIMovement : MonoBehaviour {
             || col.gameObject.tag == "Debris") {
         } else if (col.gameObject.tag == "Pillar") {
             state = BullState.DYING;
-            dest = col.transform.position;
-            home = transform.position;
-            toOther = dest - home;
+            if (isBoss)
+            {
+                //don't think we need anything here, just takes damage?
+            } else {
+                dest = col.transform.position;
+                home = transform.position;
+                toOther = dest - home;
+            }
         } else {
             if (state == BullState.CHARGE) {
                 hitSFX.Play();
@@ -176,14 +188,7 @@ public class BullAIMovement : MonoBehaviour {
     }
 
     void OnCollisionStay(Collision col) {
-        if (col.gameObject.CompareTag("Floor"))
-        {
-            mainCam.SendMessage("CameraShake");
-            spikes.SendMessage("ShootSpikes");
-            isGrounded = true;
-            doneJump = true;
-            nav.enabled = true;
-        }
+
     }
 }
 

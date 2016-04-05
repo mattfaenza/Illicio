@@ -13,6 +13,7 @@ public class Spikes : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         anim = GetComponent<Animator>(); // Get the Animator
+        col = GetComponent<BoxCollider>();
         isActivated = Animator.StringToHash("Activate");
         spikeTime = 2.0f;
     }
@@ -24,7 +25,7 @@ public class Spikes : MonoBehaviour {
             //add a delay here?
             anim.SetBool(isActivated, true);
             col.enabled = true;
-            transform.Translate(Vector3.forward * 1.3f);
+            //transform.Translate(Vector3.forward * 1.3f);
             if (Time.time >= curTime + spikeTime)
             {
                 anim.SetBool(isActivated, false);
