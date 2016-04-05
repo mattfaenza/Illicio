@@ -21,6 +21,7 @@ public class Spikes : MonoBehaviour {
 	void Update () {
         if (activated)
         {
+            //add a delay here?
             anim.SetBool(isActivated, true);
             col.enabled = true;
             transform.Translate(Vector3.forward * 1.3f);
@@ -33,7 +34,7 @@ public class Spikes : MonoBehaviour {
         }
 	}
 
-    void Activate()
+    void ShootSpikes()
     {
         activated = true;
         curTime = Time.time;
