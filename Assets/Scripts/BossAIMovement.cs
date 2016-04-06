@@ -22,8 +22,8 @@ public class BossAIMovement : MonoBehaviour
     private Vector3 dest;
     private Rigidbody rb;
     //private bool isGrounded;
-    private bool fightBegin, pound;
-    private float jumpForce, attackTime, curTime;
+    private bool fightBegin, pound, jumping;
+    private float jumpForce, attackTime, curTime, jumpTime;
     private Camera mainCam;
     public GameObject spikesModel;
     private int bossHealth, Walking, Charging;
@@ -37,6 +37,7 @@ public class BossAIMovement : MonoBehaviour
         nav = GetComponent<NavMeshAgent>(); // Navmesh agent 
         home = transform.position;
         jumpForce = 500;
+        jumpTime = 4.375f;
         attackTime = 2.0f;
         mainCam = Camera.main;
         rb = GetComponent<Rigidbody>();
@@ -130,7 +131,10 @@ public class BossAIMovement : MonoBehaviour
                     pound = true;
                     state = BullState.GROUNDPOUND;
                 }
-                else { state = BullState.JUMP; }
+                else {
+                    jumping = true;
+                    state = BullState.JUMP;
+                }
             }
             else {
                 nav.Resume();
@@ -142,10 +146,20 @@ public class BossAIMovement : MonoBehaviour
 
     void Jump()
     {
-        anim.Play("Jump");
-        nav.Stop();
-        //make immune to spikes
-        spikesModel.SendMessage("ShootSpikes");
+        if(jumping)
+        {
+            curTime = Time.time;
+            anim.Play("Jump");
+            nav.Stop();
+            //make immune to spikes
+            spikesModel.SendMessage("ShootSpikes");
+            jumping = false;
+        } else if (Time.time >= curTime + jumpTime)
+        {
+            nav.Resume();
+            state = BullState.WALK;
+        }
+
 
         //when grounded, reenable the navmesh
     }
@@ -154,6 +168,7 @@ public class BossAIMovement : MonoBehaviour
     {
         if (pound)
         {
+            nav.Stop();
             //play groundpound
             anim.Play("GroundPound");
             //after anim do camera shake
@@ -166,6 +181,7 @@ public class BossAIMovement : MonoBehaviour
         {
             FireAttack[0].enabled = false;
             FireAttack[1].enabled = false;
+            nav.Resume();
             state = BullState.WALK;
         }
     }
@@ -227,13 +243,11 @@ public class BossAIMovement : MonoBehaviour
         {
             if (col.tag == "Player" || col.tag == "Hologram")
             {
-                Debug.Log("bitchin?");
                 exclamation.SetActive(true);
                 target = col.gameObject;
                 home = target.transform.position;
                 toOther = target.transform.position - transform.position;
                 state = chargeDisabled ? BullState.FOLLOW : BullState.CHARGE;
-                Debug.Log(state);
             }
         }
         if (col.tag == "Wall" || col.tag == "Pillar")
@@ -250,8 +264,6 @@ public class BossAIMovement : MonoBehaviour
         {
             if (Time.time > 5)
             {
-                //isGrounded = true;
-                nav.enabled = true;
                 mainCam.SendMessage("CameraShake");
                 nav.Resume();
                 UpdateWalk();
@@ -289,6 +301,7 @@ public class BossAIMovement : MonoBehaviour
                 stunStart = Time.time;
                 nav.Stop();
                 confusedStars.SetActive(true);
+                anim.SetBool(Charging, false);
             }
         }
     }

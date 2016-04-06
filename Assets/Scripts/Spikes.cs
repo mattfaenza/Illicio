@@ -25,17 +25,17 @@ public class Spikes : MonoBehaviour {
 	void Update () {
         if (activated)
         {
-            if (Time.time < curTime + spikeTime*2)
+            if (Time.time < curTime + spikeTime*3)
             {
                 moveAmount = Mathf.Abs(gameObject.transform.position.y - moveToTarget.y);
                 transform.Translate(Vector3.forward * (Time.deltaTime * moveAmount * 3));
             } 
-            else if (Time.time >= curTime + spikeTime * 2)
+            else if (Time.time >= curTime + spikeTime * 3)
             {
                 moveAmount = Mathf.Abs(gameObject.transform.position.y - originalPos.y);
                 transform.Translate(-Vector3.forward * (Time.deltaTime * moveAmount * 3));
             }
-            else if (Time.time >= curTime + (spikeTime * 3)) { activated = false; }
+            else if (Time.time >= curTime + (spikeTime * 4)) { activated = false; }
         }
 	}
 
