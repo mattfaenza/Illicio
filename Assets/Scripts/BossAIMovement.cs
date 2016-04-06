@@ -57,8 +57,23 @@ public class BossAIMovement : MonoBehaviour
             case BullState.WALK:
                 Walk();
                 break;
+            case BullState.CHARGE:
+                Charge();
+                break;
+            case BullState.STUNNED:
+                Stunned();
+                break;
+            case BullState.JUMP:
+                Jump();
+                break;
+            case BullState.GROUNDPOUND:
+                GroundPound();
+                break;
             case BullState.FOLLOW:
                 Follow();
+                break;
+            case BullState.DYING:
+                Dying();
                 break;
         }
     }
@@ -81,9 +96,11 @@ public class BossAIMovement : MonoBehaviour
 
     void Idle()
     {
-        //this just plays the idle animation
+        //this just plays the idle animation - rather than wandering like a regular enemy, waits for signal to start fight
         if (fightBegin)
         {
+            CookNewDest();
+            UpdateWalk();
             state = BullState.WALK;
         }
     }
@@ -126,9 +143,11 @@ public class BossAIMovement : MonoBehaviour
     void Jump()
     {
         anim.Play("Jump");
-        nav.enabled = false;
+        nav.Stop();
         //make immune to spikes
         spikesModel.SendMessage("ShootSpikes");
+
+        //when grounded, reenable the navmesh
     }
 
     void GroundPound()
@@ -204,15 +223,17 @@ public class BossAIMovement : MonoBehaviour
     void OnTriggerStay(Collider col)
     {
         if (state == BullState.DYING || state == BullState.JUMP) return;
-        if (state == BullState.IDLE)
+        if (state == BullState.IDLE || state == BullState.WALK)
         {
             if (col.tag == "Player" || col.tag == "Hologram")
             {
+                Debug.Log("bitchin?");
                 exclamation.SetActive(true);
                 target = col.gameObject;
                 home = target.transform.position;
                 toOther = target.transform.position - transform.position;
                 state = chargeDisabled ? BullState.FOLLOW : BullState.CHARGE;
+                Debug.Log(state);
             }
         }
         if (col.tag == "Wall" || col.tag == "Pillar")
