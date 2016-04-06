@@ -101,7 +101,7 @@ namespace ScrapyardChar
                 //target.SendMessage("isNotDead");
             }
         }
-        public void OnTriggerEnter(Collider col)
+        public void OnTriggerStay(Collider col)
         {
             //if (col.gameObject.CompareTag("Enemy") || col.gameObject.CompareTag("Hazard"))
 			if (col.gameObject.CompareTag("Hazard"))

@@ -3,35 +3,39 @@ using System.Collections;
 
 public class Spikes : MonoBehaviour {
 
-    private Animator anim;
     private int isActivated;
     private bool activated;
     private BoxCollider col;
     private float spikeTime;
     private float curTime;
     private GameObject spikes;
-	// Use this for initialization
-	void Start () {
-        anim = GetComponent<Animator>(); // Get the Animator
-        col = GetComponent<BoxCollider>();
-        isActivated = Animator.StringToHash("Activate");
-        spikeTime = 2.0f;
+    private float moveAmount;
+    private Vector3 moveToTarget;
+    private Vector3 originalPos;
+    // Use this for initialization
+    void Start () {
+        spikeTime = 1.5f;
+        moveToTarget = gameObject.transform.position;
+        moveToTarget.y = moveToTarget.y + 1.3f;
+        originalPos = gameObject.transform.position;
+        activated = false;
     }
 	
 	// Update is called once per frame
 	void Update () {
         if (activated)
         {
-            //add a delay here?
-            anim.SetBool(isActivated, true);
-            col.enabled = true;
-            //transform.Translate(Vector3.forward * 1.3f);
-            if (Time.time >= curTime + spikeTime)
+            if (Time.time < curTime + spikeTime*2)
             {
-                anim.SetBool(isActivated, false);
-                activated = false;
-                col.enabled = false;
+                moveAmount = Mathf.Abs(gameObject.transform.position.y - moveToTarget.y);
+                transform.Translate(Vector3.forward * (Time.deltaTime * moveAmount * 3));
+            } 
+            else if (Time.time >= curTime + spikeTime * 2)
+            {
+                moveAmount = Mathf.Abs(gameObject.transform.position.y - originalPos.y);
+                transform.Translate(-Vector3.forward * (Time.deltaTime * moveAmount * 3));
             }
+            else if (Time.time >= curTime + (spikeTime * 3)) { activated = false; }
         }
 	}
 
@@ -41,18 +45,4 @@ public class Spikes : MonoBehaviour {
         curTime = Time.time;
 
     }
-
-    /*
-    public void OnTriggerEnter(Collider col)
-    {
-        anim.SetBool(isActivated, true);
-        // anim.Play("SpikesUp");
-    }
-
-    public void OnTriggerExit(Collider col)
-    {
-        //anim.Play("SpikesDown");
-
-    }
-     */
 }

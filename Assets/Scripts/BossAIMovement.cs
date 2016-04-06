@@ -2,47 +2,61 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class BullAIMovement : MonoBehaviour {
+public class BossAIMovement : MonoBehaviour {
     public bool chargeDisabled = false; //  enemy is set on charging Mode
     public GameObject confusedStars;
     public GameObject exclamation;
     public float range = 10.0f;
     public bool isBoss;
 
+
     private NavMeshAgent nav; // Reference to the nav mesh agent.
     private AudioSource hitSFX;
     private Vector3 toOther; // Player's position
-    private enum BullState { IDLE, CHARGE, STUNNED, JUMP, FOLLOW, DYING };
+    private enum BullState { IDLE, WALK, CHARGE, STUNNED, JUMP, GROUNDPOUND, FOLLOW, DYING };
     private BullState state = BullState.IDLE;
     private float stunStart;
     private GameObject target;
     private Vector3 home;
     private Vector3 dest;
     private Rigidbody rb;
-    private bool isGrounded;
-    private float jumpForce;
+    //private bool isGrounded;
+    private bool fightBegin, pound;
+    private float jumpForce, attackTime, curTime;
     private Camera mainCam;
     public GameObject spikesModel;
-    private int bossHealth;
+    private int bossHealth, Walking, Charging;
+    private float choice;
+    private Animator anim;
+    private BoxCollider[] FireAttack;
 
     void Start() {
         hitSFX = GetComponent<AudioSource>();
         nav = GetComponent<NavMeshAgent>(); // Navmesh agent 
         home = transform.position;
-        UpdateIdle();
+        //UpdateWalk();
         jumpForce = 500;
+        attackTime = 2.0f;
         mainCam = Camera.main;
-        //spikes = GameObject.FindGameObjectWithTag("SpikeFloor");
         rb = GetComponent<Rigidbody>();
-        isGrounded = true;
+        anim = GetComponent<Animator>();
+        FireAttack = GetComponentsInChildren<BoxCollider>();
+        Charging = Animator.StringToHash("BossCharge");
+        Walking = Animator.StringToHash("BossWalk");
+        //isGrounded = true;
         bossHealth = 1;
+        fightBegin = true;
+        state = BullState.IDLE;
     }
     void Update() {
         switch (state) {
         case BullState.IDLE:
             Idle();
             break;
-        case BullState.CHARGE:
+        case BullState.WALK:
+            Walk();
+            break;
+            case BullState.CHARGE:
             Charge();
             break;
         case BullState.STUNNED:
@@ -50,6 +64,9 @@ public class BullAIMovement : MonoBehaviour {
             break;
         case BullState.JUMP:
             Jump();
+            break;
+        case BullState.GROUNDPOUND:
+            GroundPound();
             break;
         case BullState.FOLLOW:
             Follow();
@@ -60,19 +77,44 @@ public class BullAIMovement : MonoBehaviour {
         }
     }
 
+    void beginFight() {
+        fightBegin = true;
+    }
+
+    void Walk()
+    {
+        // update nav if dest reached
+        if (Vector3.Distance(dest, transform.position) < 2.0f)
+        {
+            CookNewDest();
+            UpdateWalk();
+        }
+    }
+
     void Charge() {
         // move in saved direction until a collision
+        anim.SetBool(Charging, true);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(toOther), 360.0f * Time.deltaTime);
         transform.Translate(Vector3.forward * 20 * Time.deltaTime);
     }
     void Stunned() {
         // wait, then resume idle status
+        anim.SetBool(Charging, false);
+        anim.SetBool(Walking, true);
         if (stunStart + 4.0f < Time.time) {
             confusedStars.SetActive(false);
-            if (isBoss) { state = BullState.JUMP; }
-            else {
+            if (isBoss)
+            {
+                choice = Random.value;
+                if (choice < 0.5) {
+                    curTime = Time.time;
+                    pound = true;
+                    state = BullState.GROUNDPOUND;
+                }
+                else { state = BullState.JUMP; }
+            } else {
                 nav.Resume();
-                UpdateIdle();
+                UpdateWalk();
             }
 
         }
@@ -80,19 +122,35 @@ public class BullAIMovement : MonoBehaviour {
 
     void Jump()
     {
-        if (isGrounded) {
-            //play jump animation here
+            anim.Play("Jump");
             nav.enabled = false;
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Acceleration);
-            isGrounded = false;
+            //make immune to spikes
+            spikesModel.SendMessage("ShootSpikes");
+    }
+
+    void GroundPound()
+    {
+        if (pound)
+        {
+            //play groundpound
+            anim.Play("GroundPound");
+            //after anim do camera shake
+            mainCam.SendMessage("CameraShake");
+            FireAttack[0].enabled = true;
+            FireAttack[1].enabled = true;
+            pound = false;
+        } else if (Time.time > curTime + attackTime) {
+            FireAttack[0].enabled = false;
+            FireAttack[1].enabled = false;
+            state = BullState.WALK;
         }
     }
 
     void Idle() {
-        // update nav if dest reached
-        if (Vector3.Distance(dest, transform.position) < 2.0f) {
-            CookNewDest();
-            UpdateIdle();
+        //this just plays the idle animation
+        if(fightBegin)
+        {
+            state = BullState.WALK;
         }
     }
     void Dying() {
@@ -100,6 +158,7 @@ public class BullAIMovement : MonoBehaviour {
         {
             if(bossHealth > 0)
             {
+                anim.Play("Hit");
                 hitSFX.Play();
                 state = BullState.STUNNED;
                 stunStart = Time.time;
@@ -108,26 +167,29 @@ public class BullAIMovement : MonoBehaviour {
                 return;
             }
         }
-        transform.rotation = Quaternion.LookRotation(toOther);
-        transform.Translate(Vector3.forward * 40 * Time.deltaTime);
-        if (Vector3.Distance(home, transform.position) >= Vector3.Distance(home, dest))
-            Destroy(gameObject);
+        nav.Stop();
+        anim.Play("Die");
+        //transform.rotation = Quaternion.LookRotation(toOther);
+        //transform.Translate(Vector3.forward * 40 * Time.deltaTime);
+        //if (Vector3.Distance(home, transform.position) >= Vector3.Distance(home, dest))
+        Destroy(gameObject);
 
     }
     void CookNewDest() {
         dest = home + range * new Vector3(Mathf.Sin(Time.realtimeSinceStartup), 0.0f, Mathf.Cos(Time.realtimeSinceStartup));
+        anim.SetBool(Walking, true);
     }
     void Follow() {
         // use nav to chase until collision, resume idle if target moves out of range
         nav.speed = 5;
         nav.SetDestination(target.transform.position);
         if (Vector3.Distance(transform.position, target.transform.position) > 20f || !target.activeSelf) {
-            UpdateIdle();
+            UpdateWalk();
             exclamation.SetActive(false);
         }
     }
-    void UpdateIdle() {
-        state = BullState.IDLE;
+    void UpdateWalk() {
+        state = BullState.WALK;
         nav.speed = 3.5f;
         exclamation.SetActive(false);
         nav.SetDestination(dest);
@@ -150,18 +212,20 @@ public class BullAIMovement : MonoBehaviour {
     }
     void OnCollisionEnter(Collision col) {
         if (state == BullState.DYING) return;
-        if (col.gameObject.CompareTag("Floor") || isGrounded == false)
+        if (col.gameObject.CompareTag("Floor")) //|| isGrounded == false)
         {
-            isGrounded = true;
-            nav.enabled = true;
-            spikesModel.SendMessage("ShootSpikes");
-            mainCam.SendMessage("CameraShake");
-            nav.Resume();
-            UpdateIdle();
+            if (Time.time > 5)
+            {
+                //isGrounded = true;
+                nav.enabled = true;
+                mainCam.SendMessage("CameraShake");
+                nav.Resume();
+                UpdateWalk();
+            }
         }
         if (col.gameObject.tag == "Player") {
             hitSFX.Play();
-            UpdateIdle();
+            UpdateWalk();
         } else if (col.gameObject.tag == "Hologram" 
             || col.gameObject.tag == "Marker" 
             || col.gameObject.tag == "Debris") {

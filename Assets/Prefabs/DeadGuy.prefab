@@ -11101,7 +11101,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 185054}
-  m_LocalRotation: {x: -0.5156318, y: -0.52935266, z: -0.36399847, w: 0.56693447}
+  m_LocalRotation: {x: -0.51563185, y: -0.5293527, z: -0.3639985, w: 0.5669345}
   m_LocalPosition: {x: -0.0011112173, y: -0.004772262, z: 0.01584794}
   m_LocalScale: {x: 0.99999994, y: 0.9999998, z: 1}
   m_Children:
@@ -11865,6 +11865,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deadTime: 5
+  dead: 1
 --- !u!137 &13733106
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

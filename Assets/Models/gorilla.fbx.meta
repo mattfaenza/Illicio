@@ -68,6 +68,8 @@ ModelImporter:
     7400006: metarig|MonkeyRun
     7400008: metarig|MonkeyWalk
     7400010: Scene
+    7400012: metarig|MonkeyGroundPound
+    7400014: metarig|MonkeyJump
     9500000: //RootNode
     13700000: mino
     13700002: mino.001
