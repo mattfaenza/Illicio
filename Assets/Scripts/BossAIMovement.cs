@@ -24,7 +24,7 @@ public class BossAIMovement : MonoBehaviour
     private float jumpForce, windUpTime, fireTime, curTime, jumpTime;
     private Camera mainCam;
     public GameObject spikesModel;
-    private int bossHealth, Walking, Charging;
+    private int bossHealth, Walking, Charging, Idling;
     private float choice;
     private Animator anim;
     private BoxCollider[] FireAttack;
@@ -44,6 +44,7 @@ public class BossAIMovement : MonoBehaviour
         IceSpikes = GameObject.Find("IceAttack");
         Charging = Animator.StringToHash("BossCharge");
         Walking = Animator.StringToHash("BossWalk");
+        Walking = Animator.StringToHash("BossIdle");
         bossHealth = 4;
         fightBegin = true;
         spiked = false;
@@ -111,12 +112,13 @@ public class BossAIMovement : MonoBehaviour
         // move in saved direction until a collision
         anim.SetBool(Charging, true);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(toOther), 360.0f * Time.deltaTime);
-        transform.Translate(Vector3.forward * 20 * Time.deltaTime);
+        transform.Translate(Vector3.forward * 30 * Time.deltaTime);
     }
 
     void Stunned()
     {
         // wait, then resume idle status
+        nav.Stop();
         anim.SetBool(Charging, false);
         anim.SetBool(Walking, true);
         if (stunStart + 4.0f < Time.time)
@@ -124,7 +126,7 @@ public class BossAIMovement : MonoBehaviour
             confusedStars.SetActive(false);
             if (isBoss)
             {
-                choice = 0.6f;
+                choice = 0.3f;
                // choice = Random.value;
                 if (choice < 0.5)
                 {
@@ -180,7 +182,8 @@ public class BossAIMovement : MonoBehaviour
             FireAttack[0].enabled = false;
             FireAttack[1].enabled = false;
             IceSpikes.BroadcastMessage("Deactivate");
-            Debug.Log("Deactivation");
+            spiked = false;
+            pound = true;
             nav.Resume();
             state = BullState.WALK;
         }
@@ -191,7 +194,6 @@ public class BossAIMovement : MonoBehaviour
             FireAttack[0].enabled = true;
             FireAttack[1].enabled = true;
             if (!spiked) {
-                Debug.Log(spiked);
                 IceSpikes.BroadcastMessage("Activate");
                 spiked = true;
             }
@@ -215,17 +217,13 @@ public class BossAIMovement : MonoBehaviour
             }
         }
         nav.Stop();
-        anim.Play("Die");
-        //transform.rotation = Quaternion.LookRotation(toOther);
-        //transform.Translate(Vector3.forward * 40 * Time.deltaTime);
-        //if (Vector3.Distance(home, transform.position) >= Vector3.Distance(home, dest))
+        anim.Play("Die");   
         Destroy(gameObject);
 
     }
 
     void CookNewDest()
     {
-        choice = Random.value;
         dest = home + range * new Vector3(Mathf.Sin(Time.realtimeSinceStartup), 0.0f, Mathf.Cos(Time.realtimeSinceStartup));
         anim.SetBool(Walking, true);
     }
@@ -285,9 +283,10 @@ public class BossAIMovement : MonoBehaviour
         }
         if (col.gameObject.tag == "Player")
         {
+            anim.SetBool(Charging, false);
             hitSFX.Play();
-            UpdateWalk();
             state = BullState.WALK;
+            UpdateWalk();
         }
         else if (col.gameObject.tag == "Hologram"
           || col.gameObject.tag == "Marker"
