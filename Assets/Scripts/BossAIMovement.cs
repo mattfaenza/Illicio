@@ -20,33 +20,33 @@ public class BossAIMovement : MonoBehaviour
     private GameObject target;
     private Vector3 home;
     private Vector3 dest;
-    private Rigidbody rb;
-    //private bool isGrounded;
-    private bool fightBegin, pound, jumping;
-    private float jumpForce, attackTime, curTime, jumpTime;
+    private bool fightBegin, pound, jumping, spiked;
+    private float jumpForce, windUpTime, fireTime, curTime, jumpTime;
     private Camera mainCam;
     public GameObject spikesModel;
     private int bossHealth, Walking, Charging;
     private float choice;
     private Animator anim;
     private BoxCollider[] FireAttack;
+    private GameObject IceSpikes;
 
     void Start()
     {
         hitSFX = GetComponent<AudioSource>();
         nav = GetComponent<NavMeshAgent>(); // Navmesh agent 
         home = transform.position;
-        jumpForce = 500;
         jumpTime = 4.375f;
-        attackTime = 2.0f;
+        windUpTime = 2.458f;
+        fireTime = 2.0f;
         mainCam = Camera.main;
-        rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
         FireAttack = GetComponentsInChildren<BoxCollider>();
+        IceSpikes = GameObject.Find("IceAttack");
         Charging = Animator.StringToHash("BossCharge");
         Walking = Animator.StringToHash("BossWalk");
         bossHealth = 4;
         fightBegin = true;
+        spiked = false;
     }
     void Update()
     {
@@ -124,7 +124,8 @@ public class BossAIMovement : MonoBehaviour
             confusedStars.SetActive(false);
             if (isBoss)
             {
-                choice = Random.value;
+                choice = 0.6f;
+               // choice = Random.value;
                 if (choice < 0.5)
                 {
                     curTime = Time.time;
@@ -168,21 +169,33 @@ public class BossAIMovement : MonoBehaviour
     {
         if (pound)
         {
-            nav.Stop();
+            //nav.Stop();
             //play groundpound
             anim.Play("GroundPound");
             //after anim do camera shake
-            mainCam.SendMessage("CameraShake");
-            FireAttack[0].enabled = true;
-            FireAttack[1].enabled = true;
             pound = false;
         }
-        else if (Time.time > curTime + attackTime)
+        else if (Time.time > curTime + windUpTime + fireTime && state == BullState.GROUNDPOUND)
         {
             FireAttack[0].enabled = false;
             FireAttack[1].enabled = false;
+            IceSpikes.BroadcastMessage("Deactivate");
+            Debug.Log("Deactivation");
             nav.Resume();
             state = BullState.WALK;
+        }
+        else if (Time.time > curTime + windUpTime)
+        {
+            //show fire
+            //mainCam.SendMessage("CameraShake");
+            FireAttack[0].enabled = true;
+            FireAttack[1].enabled = true;
+            if (!spiked) {
+                Debug.Log(spiked);
+                IceSpikes.BroadcastMessage("Activate");
+                spiked = true;
+            }
+
         }
     }
 
@@ -212,6 +225,7 @@ public class BossAIMovement : MonoBehaviour
 
     void CookNewDest()
     {
+        choice = Random.value;
         dest = home + range * new Vector3(Mathf.Sin(Time.realtimeSinceStartup), 0.0f, Mathf.Cos(Time.realtimeSinceStartup));
         anim.SetBool(Walking, true);
     }
@@ -260,7 +274,7 @@ public class BossAIMovement : MonoBehaviour
     void OnCollisionEnter(Collision col)
     {
         if (state == BullState.DYING) return;
-        if (col.gameObject.CompareTag("Floor")) //|| isGrounded == false)
+        if (col.gameObject.CompareTag("Floor"))
         {
             if (Time.time > 5)
             {
@@ -273,6 +287,7 @@ public class BossAIMovement : MonoBehaviour
         {
             hitSFX.Play();
             UpdateWalk();
+            state = BullState.WALK;
         }
         else if (col.gameObject.tag == "Hologram"
           || col.gameObject.tag == "Marker"

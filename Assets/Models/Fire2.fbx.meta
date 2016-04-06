@@ -1,0 +1,201 @@
+fileFormatVersion: 2
+guid: 9927f33ae90f76b4a818141cb304bcfb
+timeCreated: 1459926503
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Cone.000
+    100002: Cone.001
+    100004: Cone.002
+    100006: Cone.003
+    100008: Cone.004
+    100010: Cone.005
+    100012: //RootNode
+    400000: Cone.000
+    400002: Cone.001
+    400004: Cone.002
+    400006: Cone.003
+    400008: Cone.004
+    400010: Cone.005
+    400012: //RootNode
+    2300000: Cone.000
+    2300002: Cone.001
+    2300004: Cone.002
+    2300006: Cone.003
+    2300008: Cone.004
+    2300010: Cone.005
+    3300000: Cone.000
+    3300002: Cone.001
+    3300004: Cone.002
+    3300006: Cone.003
+    3300008: Cone.004
+    3300010: Cone.005
+    4300000: Cone.004
+    4300002: Cone.005
+    4300004: Cone.003
+    4300006: Cone.002
+    4300008: Cone.001
+    4300010: Cone.000
+    7400000: Cone.004|CameraAction
+    7400002: Cone.004|ConeAction
+    7400004: Cone.004|ConeAction.001
+    7400006: Cone.004|ConeAction.002
+    7400008: Cone.004|ConeAction.003
+    7400010: Cone.004|ConeAction.004
+    7400012: Cone.004|ConeAction.005
+    7400014: Cone.004|ConeAction.006
+    7400016: Cone.004|ConeAction.007
+    7400018: Cone.004|ConeAction.008
+    7400020: Cone.004|ConeAction.009
+    7400022: Cone.004|ConeAction.010
+    7400024: Cone.004|ConeAction.011
+    7400026: Cone.004|ConeAction.012
+    7400028: Cone.004|KeyAction
+    7400030: Cone.004|LampAction
+    7400032: Cone.005|CameraAction
+    7400034: Cone.005|ConeAction
+    7400036: Cone.005|ConeAction.001
+    7400038: Cone.005|ConeAction.002
+    7400040: Cone.005|ConeAction.003
+    7400042: Cone.005|ConeAction.004
+    7400044: Cone.005|ConeAction.005
+    7400046: Cone.005|ConeAction.006
+    7400048: Cone.005|ConeAction.007
+    7400050: Cone.005|ConeAction.008
+    7400052: Cone.005|ConeAction.009
+    7400054: Cone.005|ConeAction.010
+    7400056: Cone.005|ConeAction.011
+    7400058: Cone.005|ConeAction.012
+    7400060: Cone.005|KeyAction
+    7400062: Cone.005|LampAction
+    7400064: Cone.003|CameraAction
+    7400066: Cone.003|ConeAction
+    7400068: Cone.003|ConeAction.001
+    7400070: Cone.003|ConeAction.002
+    7400072: Cone.003|ConeAction.003
+    7400074: Cone.003|ConeAction.004
+    7400076: Cone.003|ConeAction.005
+    7400078: Cone.003|ConeAction.006
+    7400080: Cone.003|ConeAction.007
+    7400082: Cone.003|ConeAction.008
+    7400084: Cone.003|ConeAction.009
+    7400086: Cone.003|ConeAction.010
+    7400088: Cone.003|ConeAction.011
+    7400090: Cone.003|ConeAction.012
+    7400092: Cone.003|KeyAction
+    7400094: Cone.003|LampAction
+    7400096: Cone.002|CameraAction
+    7400098: Cone.002|ConeAction
+    7400100: Cone.002|ConeAction.001
+    7400102: Cone.002|ConeAction.002
+    7400104: Cone.002|ConeAction.003
+    7400106: Cone.002|ConeAction.004
+    7400108: Cone.002|ConeAction.005
+    7400110: Cone.002|ConeAction.006
+    7400112: Cone.002|ConeAction.007
+    7400114: Cone.002|ConeAction.008
+    7400116: Cone.002|ConeAction.009
+    7400118: Cone.002|ConeAction.010
+    7400120: Cone.002|ConeAction.011
+    7400122: Cone.002|ConeAction.012
+    7400124: Cone.002|KeyAction
+    7400126: Cone.002|LampAction
+    7400128: Cone.001|CameraAction
+    7400130: Cone.001|ConeAction
+    7400132: Cone.001|ConeAction.001
+    7400134: Cone.001|ConeAction.002
+    7400136: Cone.001|ConeAction.003
+    7400138: Cone.001|ConeAction.004
+    7400140: Cone.001|ConeAction.005
+    7400142: Cone.001|ConeAction.006
+    7400144: Cone.001|ConeAction.007
+    7400146: Cone.001|ConeAction.008
+    7400148: Cone.001|ConeAction.009
+    7400150: Cone.001|ConeAction.010
+    7400152: Cone.001|ConeAction.011
+    7400154: Cone.001|ConeAction.012
+    7400156: Cone.001|KeyAction
+    7400158: Cone.001|LampAction
+    7400160: Cone.000|CameraAction
+    7400162: Cone.000|ConeAction
+    7400164: Cone.000|ConeAction.001
+    7400166: Cone.000|ConeAction.002
+    7400168: Cone.000|ConeAction.003
+    7400170: Cone.000|ConeAction.004
+    7400172: Cone.000|ConeAction.005
+    7400174: Cone.000|ConeAction.006
+    7400176: Cone.000|ConeAction.007
+    7400178: Cone.000|ConeAction.008
+    7400180: Cone.000|ConeAction.009
+    7400182: Cone.000|ConeAction.010
+    7400184: Cone.000|ConeAction.011
+    7400186: Cone.000|ConeAction.012
+    7400188: Cone.000|KeyAction
+    7400190: Cone.000|LampAction
+    7400192: Scene
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
