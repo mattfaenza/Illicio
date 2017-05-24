@@ -11,7 +11,7 @@ public class BossAIMovement : MonoBehaviour
     public bool isBoss;
 
 
-    private NavMeshAgent nav; // Reference to the nav mesh agent.
+    private UnityEngine.AI.NavMeshAgent nav; // Reference to the nav mesh agent.
     private AudioSource hitSFX;
     private Vector3 toOther; // Player's position
     private enum BullState { IDLE, WALK, CHARGE, STUNNED, JUMP, GROUNDPOUND, FOLLOW, DYING };
@@ -33,7 +33,7 @@ public class BossAIMovement : MonoBehaviour
     void Start()
     {
         hitSFX = GetComponent<AudioSource>();
-        nav = GetComponent<NavMeshAgent>(); // Navmesh agent 
+        nav = GetComponent<UnityEngine.AI.NavMeshAgent>(); // Navmesh agent 
         home = transform.position;
         jumpTime = 4.375f;
         windUpTime = 2.458f;

@@ -8,7 +8,7 @@ public class LizardAIMovement : MonoBehaviour {
 
 	Transform player; // Reference to the player's position.
     GameObject[] movement; // Reference to general Enemy Movement waypoint
-    NavMeshAgent agent; // Reference to the nav mesh agent.
+    UnityEngine.AI.NavMeshAgent agent; // Reference to the nav mesh agent.
 	public bool followPlayer = false; // is the enemy following player?!
 	public GameObject cautionTrigger; // caution trigger cylinder
 	int movementIndex; // to check which waypoint enemy is on
@@ -28,7 +28,7 @@ public class LizardAIMovement : MonoBehaviour {
 	void Start () {
 		player = GameObject.FindGameObjectWithTag ("Player").transform; // Find Player
 		movementIndex = 0; // start at waypoint 0
-		agent = GetComponent <NavMeshAgent> (); // Navmesh agent 
+		agent = GetComponent <UnityEngine.AI.NavMeshAgent> (); // Navmesh agent 
 		movementHandler (); // Start moving in the way point 
 		hitSFX = GetComponent<AudioSource>();
 	}
